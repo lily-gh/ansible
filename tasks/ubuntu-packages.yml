@@ -39,6 +39,7 @@
     - git
     - gpg
     - eza
+    - vim
     - zsh
     - zsh-syntax-highlighting
     - zsh-autosuggestions

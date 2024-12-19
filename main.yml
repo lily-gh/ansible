@@ -2,7 +2,8 @@
 - name: Main Playbook
   hosts: localhost
   gather_facts: true  # Ensure platform facts are gathered
-  become: false        # Required for sudo on Ubuntu
+  become: true        # Required for sudo on Ubuntu
+  become_user: lily
 
   tasks:
     - name: Include macOS tasks
