@@ -7,4 +7,4 @@
   tasks:
     - name: Ensure ~/.zshrc is properly initialized
       ansible.builtin.shell: |
-      echo "\nconda activate PyEnv3.9" >> ~/.zshrc
+        echo '\nconda activate PyEnv3.9' >> ~/.zshrc
