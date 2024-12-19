@@ -4,9 +4,4 @@
   gather_facts: true  # Ensure platform facts are gathered
   become: true        # Required for sudo on Ubuntu
 
-  tasks:
-    - name: Append conda activate to .zshrc
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.zshrc"
-        line: 'conda activate PyEnv3.9'
-        create: yes
+- import_playbook: nonsudo.yml
