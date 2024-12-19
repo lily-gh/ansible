@@ -2,9 +2,17 @@
 - name: Main Playbook
   hosts: localhost
   gather_facts: true  # Ensure platform facts are gathered
-  become: true        # Required for sudo on Ubuntu
+  become: false        # Required for sudo on Ubuntu
 
   tasks:
+    - name: Install packages on Ubuntu/WSL
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - bat
+        - ffmpeg
+
     - name: include non sudo
       include_tasks: nonsudo.yml
         

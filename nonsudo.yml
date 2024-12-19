@@ -1,8 +1,6 @@
 ---
 
 - name: Debug home directory
-  become: false
-  become_user: lily  # Runs as non sudo user, make surethe username matches the one in your system
   ansible.builtin.debug:
     msg: "Home directory is {{ ansible_env.HOME }}"
 

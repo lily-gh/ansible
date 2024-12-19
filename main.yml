@@ -2,7 +2,7 @@
 - name: Main Playbook
   hosts: localhost
   gather_facts: true  # Ensure platform facts are gathered
-  become: true        # Required for sudo on Ubuntu
+  become: false        # Required for sudo on Ubuntu
 
   tasks:
     - name: Include macOS tasks
@@ -18,8 +18,8 @@
 
     # Switch main shell to zsh
     - name: Change default shell to zsh
-      ansible.builtin.shell: chsh -s $(which zsh) "{{ ansible_user_id }}"
+      ansible.builtin.shell: chsh -s $(which zsh)
 
-- import_playbook: tasks/install-python.yml
+#- import_playbook: tasks/install-python.yml
 #- import_playbook: tasks/setup-ssh.yml
 #- import_playbook: tasks/clone-lilydevtools.yml
