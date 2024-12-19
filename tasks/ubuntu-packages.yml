@@ -33,12 +33,12 @@
     name: "{{ item }}"
     state: latest
   with_items:
-    - zsh
     - bat
     - ffmpeg
     - fzf
     - git
-    - zsh-syntax-highlighting
-    - zsh-autosuggestions
     - gpg
     - eza
+    - zsh
+    - zsh-syntax-highlighting
+    - zsh-autosuggestions
