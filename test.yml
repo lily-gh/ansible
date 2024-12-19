@@ -1,0 +1,18 @@
+---
+- name: Main Playbook
+  hosts: localhost
+  gather_facts: true  # Ensure platform facts are gathered
+  become: true        # Required for sudo on Ubuntu
+
+  tasks:
+    - name: Ensure ~/.zshrc is properly initialized
+    ansible.builtin.copy:
+      dest: ~/.zshrc
+      content: |
+        # Start of .zshrc
+        # Zsh configuration file
+        conda activate PyEnv3.9
+        # Add other necessary initialization here
+      remote_src: false
+    args:
+      creates: ~/.zshrc
