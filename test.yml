@@ -4,4 +4,7 @@
   gather_facts: true  # Ensure platform facts are gathered
   become: true        # Required for sudo on Ubuntu
 
-- import_playbook: nonsudo.yml
+  tasks:
+    - name: include non sudo
+      include_tasks: nonsudo.yml
+        

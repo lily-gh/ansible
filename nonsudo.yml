@@ -1,28 +1,13 @@
 ---
 
-- name: Tasks running as non-sudo user
-  hosts: localhost
-  become: true
-  become_user: lily  # Runs as non sudo user
+- name: Debug home directory
+  become: false
+  become_user: lily  # Runs as non sudo user, make surethe username matches the one in your system
+  ansible.builtin.debug:
+    msg: "Home directory is {{ ansible_env.HOME }}"
 
-  tasks:
-    - name: Verify $HOME environment variable
-      ansible.builtin.shell: echo $HOME
-      
-      register: home_output
-
-    - name: Display the value of $HOME
-      ansible.builtin.debug:
-        var: home_output.stdout
-
-    - name: Debug home directory
-      become: true
-      become_user: lily
-      ansible.builtin.debug:
-        msg: "Home directory is {{ ansible_env.HOME }}"
-
-    - name: Append conda activate to .zshrc
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.zshrc"
-        line: 'conda activate PyEnv3.9'
-        create: yes
+- name: Append conda activate to .zshrc
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.lilyrc"
+    line: 'conda activate PyEnv3.9'
+    create: yes
