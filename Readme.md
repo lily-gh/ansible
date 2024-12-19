@@ -34,3 +34,7 @@ Then execute the main ansible playbook:
 ```sh
 ansible-playbook main.yml --ask-vault-pass
 ```
+
+
+## Quality Certificate
+<img src="https://github.com/lily-gh/devtools/blob/img/img/works_on_my_machine.png" width="350" alt="Works on my machine" /> ![Kitty](https://github.com/lily-gh/devtools/blob/img/img/kitty_paws.gif)
