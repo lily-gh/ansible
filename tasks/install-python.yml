@@ -1,0 +1,26 @@
+
+---
+- name: Setup Python Environment
+  hosts: localhost
+  gather_facts: true
+  become: true
+
+  tasks:
+    # Install Miniconda
+    - name: Install Miniconda on macOS
+      include_tasks: python/conda-macos.yml
+      when: ansible_facts['os_family'] == 'Darwin'
+
+    - name: Install Miniconda on Ubuntu
+      include_tasks: python/conda-ubuntu.yml
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Initialize conda
+      ansible.builtin.shell: $HOME/miniconda/bin/conda init
+
+    - name: Create Python 3.9 environment
+      ansible.builtin.shell: $HOME/miniconda/bin/conda create --name PyEnv3.9 python=3.9 -y
+
+    - name: Reload ~/.zshrc
+      ansible.builtin.shell: source ~/.zshrc
+    

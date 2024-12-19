@@ -16,5 +16,10 @@
     - name: Install Oh My Zsh
       include_tasks: tasks/oh-my-zsh.yml
 
-- import_playbook: tasks/setup-ssh.yml
-- import_playbook: tasks/clone-lilydevtools.yml
+    # Switch main shell to zsh
+    - name: Change default shell to zsh
+      ansible.builtin.shell: chsh -s $(which zsh) "{{ ansible_user_id }}"
+
+- import_playbook: tasks/install-python.yml
+#- import_playbook: tasks/setup-ssh.yml
+#- import_playbook: tasks/clone-lilydevtools.yml

@@ -1,0 +1,26 @@
+---
+
+# Install Miniconda
+- name: Download Miniconda installer
+  ansible.builtin.get_url:
+    url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    dest: /tmp/Miniconda3-latest-Linux-x86_64.sh
+    mode: '0755'
+
+- name: Run Miniconda installer
+  ansible.builtin.shell: bash /tmp/Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
+
+- name: Initialize conda
+  ansible.builtin.shell: $HOME/miniconda/bin/conda init
+
+- name: Create Python 3.9 environment
+  ansible.builtin.shell: $HOME/miniconda/bin/conda create --name PyEnv3.9 python=3.9 -y
+
+- name: Append conda activate to ~/.zshrc
+  ansible.builtin.lineinfile:
+    path: ~/.zshrc
+    line: 'conda activate PyEnv3.9'
+    create: yes
+
+- name: Reload ~/.zshrc
+  ansible.builtin.shell: source ~/.zshrc
