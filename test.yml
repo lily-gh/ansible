@@ -6,13 +6,5 @@
 
   tasks:
     - name: Ensure ~/.zshrc is properly initialized
-      ansible.builtin.copy:
-        dest: ~/.zshrc
-        content: |
-          # Start of .zshrc
-          # Zsh configuration file
-          conda activate PyEnv3.9
-          # Add other necessary initialization here
-        remote_src: false
-      args:
-        creates: ~/.zshrc
+      ansible.builtin.shell: |
+      echo "\nconda activate PyEnv3.9" >> ~/.zshrc
