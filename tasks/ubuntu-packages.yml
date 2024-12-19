@@ -2,26 +2,22 @@
 
 # Install eza dependencies
 - name: Ensure keyring directory exists
-  sudo: yes
   ansible.builtin.file:
     path: /etc/apt/keyrings
     state: directory
     mode: '0755'
 
 - name: Download and install the GPG key for eza (force overwrite)
-  sudo: yes
   ansible.builtin.shell: |
     yes | wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | gpg --dearmor > /etc/apt/keyrings/gierens.gpg
 
 - name: Add eza repository to sources list
-  sudo: yes
   ansible.builtin.copy:
     dest: /etc/apt/sources.list.d/gierens.list
     content: "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main"
     mode: '0644'
 
 - name: Ensure keyring file has correct permissions
-  sudo: yes
   ansible.builtin.file:
     path: /etc/apt/keyrings/gierens.gpg
     mode: '0644'
