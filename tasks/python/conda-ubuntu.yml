@@ -18,9 +18,9 @@
 
 - name: Append conda activate to ~/.zshrc
   ansible.builtin.lineinfile:
-    path: ~/.zshrc
+    path: $HOME/.zshrc
     line: 'conda activate PyEnv3.9'
     create: yes
 
 - name: Reload ~/.zshrc
-  ansible.builtin.shell: source ~/.zshrc
+  ansible.builtin.shell: source $HOME/.zshrc
