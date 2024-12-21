@@ -14,7 +14,10 @@
       when: ansible_facts['os_family'] == 'Debian'
 
     - name: Install Oh My Zsh
-      include_tasks: tasks/oh-my-zsh.yml
+      ansible.builtin.shell: |
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      args:
+        creates: ~/.oh-my-zsh
 
     # Switch main shell to zsh
     - name: Change default shell to zsh
