@@ -3,10 +3,6 @@
 # eza dependencies
 - name: Include eza dependencies
   include_tasks: eza-dependencies.yml
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: '0755'
   when: ansible_facts['cmdline']['eza'] is not defined
 
 # Update apt cache
