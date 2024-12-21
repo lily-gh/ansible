@@ -31,8 +31,12 @@ pip install ansible
 ```
 
 Then execute the main ansible playbook:
+_(you'll need to provide the sudo password and ansible vault password)_
 ```sh
-ansible-playbook main.yml --ask-vault-pass
+ansible-playbook main.yml --ask-become-pass
+```
+```sh
+ansible-playbook main.yml --ask-become-pass --ask-vault-pass
 ```
 
 
