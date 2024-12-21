@@ -1,9 +1,14 @@
 ---
 
 # eza dependencies
-- name: Include eza dependencies
+- name: Check if 'eza' command is available
+  ansible.builtin.command: which eza
+  register: eza_check
+  ignore_errors: true
+
+- name: Include eza dependencies if 'eza' is not installed
   include_tasks: eza-dependencies.yml
-  when: ansible_facts['cmdline']['eza'] is not defined
+  when: eza_check.rc != 0
 
 # Update apt cache
 - name: Update apt cache
