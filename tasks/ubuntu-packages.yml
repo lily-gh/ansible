@@ -1,6 +1,5 @@
 ---
 
-# eza dependencies
 - name: Check if 'eza' command is available
   ansible.builtin.command: which eza
   register: eza_check
