@@ -12,6 +12,15 @@
   args:
     creates: /usr/local/bin/brew
 
+- name: Check if 'eza' command is available
+  ansible.builtin.command: which eza
+  register: eza_check
+  ignore_errors: true
+
+- name: Include eza dependencies if 'eza' is not installed
+  include_tasks: eza-dependencies-macos.yml
+  when: eza_check.rc != 0
+
 # Update Homebrew
 - name: Update Homebrew
   ansible.builtin.command: brew update
@@ -22,8 +31,13 @@
   ansible.builtin.homebrew:
     name: "{{ item }}"
   with_items:
-    - zsh
     - bat
-    - yt-dlp
     - ffmpeg
+    - fzf
     - git
+    - gpg
+    - eza
+    - vim
+    - zsh
+    - zsh-syntax-highlighting
+    - zsh-autosuggestions
