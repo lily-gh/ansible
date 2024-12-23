@@ -19,9 +19,19 @@
       args:
         creates: ~/.oh-my-zsh
 
+    - name: Install Powerlevel10k theme
+      ansible.builtin.git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        version: master
+      become: false    
+
     # Switch main shell to zsh
     - name: Change default shell to zsh
       ansible.builtin.shell: chsh -s $(which zsh)
+
+    - name: Include dotfiles tasks
+      include_tasks: tasks/dotfiles.yml
 
 #- import_playbook: tasks/install-python.yml
 #- import_playbook: tasks/setup-ssh.yml

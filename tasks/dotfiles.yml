@@ -1,0 +1,15 @@
+---
+
+- name: Debug home directory
+  ansible.builtin.debug:
+    msg: "Home directory is {{ ansible_env.HOME }}"
+
+- name: Setup dotfiles
+  ansible.builtin.copy:
+    src: "dotfiles/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item }}"
+    mode: '0644'
+  loop:
+    - .zshrc
+    - .p10k.zsh
+    - .bat.conf
