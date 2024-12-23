@@ -3,7 +3,7 @@
 - name: Check if 'eza' command is available
   ansible.builtin.command: which eza
   register: eza_check
-  ignore_errors: true
+  failed_when: false
 
 - name: Include eza dependencies if 'eza' is not installed
   include_tasks: eza-dependencies.yml
@@ -28,5 +28,4 @@
     - eza
     - vim
     - zsh
-    - zsh-syntax-highlighting
     - build-essential
