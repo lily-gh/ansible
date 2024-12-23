@@ -19,6 +19,18 @@
       args:
         creates: ~/.oh-my-zsh
 
+    - name: Ensure zsh-autosuggestions is installed
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        version: main
+
+    - name: Ensure zsh-syntax-highlighting is installed
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        version: main
+
     - name: Install Powerlevel10k theme
       ansible.builtin.git:
         repo: https://github.com/romkatv/powerlevel10k.git
