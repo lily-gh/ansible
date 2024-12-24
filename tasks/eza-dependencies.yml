@@ -19,7 +19,7 @@
     mode: '0755'
 
 - name: Download and install the GPG key for eza (force overwrite)
-  ansible.builtin.shell: |
+  ansible.builtin.sudo: |
     yes | curl -sSL https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | gpg --dearmor > /etc/apt/keyrings/gierens.gpg
 
 - name: Add eza repository to sources list
