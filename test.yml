@@ -4,18 +4,6 @@
   gather_facts: true
 
   tasks:
-       # Get the current user
-    - name: Get current user
-      ansible.builtin.command: whoami
-      register: current_user
-
-    # Switch main shell to zsh
-    - name: Change default shell to zsh
-      ansible.builtin.shell: chsh -s $(which zsh) "{{ current_user.stdout }}"
-      become: true
-
-    - name: Include dotfiles tasks
-      include_tasks: tasks/dotfiles.yml
-
-- import_playbook: tasks/install-python.yml
+    - name: Initialize conda
+      ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
         
