@@ -9,22 +9,4 @@
 
 - name: Run Miniconda installer
   ansible.builtin.shell: bash /tmp/Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
-
-- name: Initialize conda
-  ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
-
-- name: Create Python 3.9 environment
-  ansible.builtin.shell: $HOME/miniconda/bin/conda create --name PyEnv3.9 python=3.9 -y
   
-- name: Debug home directory
-  ansible.builtin.debug:
-    msg: "Home directory is {{ ansible_env.HOME }}"
-
-- name: Append conda activate to ~/.zshrc
-  ansible.builtin.lineinfile:
-    path: $HOME/.zshrc
-    line: 'conda activate PyEnv3.9'
-    create: yes
-
-- name: Reload ~/.zshrc
-  ansible.builtin.shell: source $HOME/.zshrc
