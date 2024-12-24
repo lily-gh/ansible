@@ -34,7 +34,6 @@
         repo: https://github.com/romkatv/powerlevel10k.git
         dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
         version: master
-      become: false    
 
     # Switch main shell to zsh
     - name: Change default shell to zsh
