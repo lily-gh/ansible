@@ -1,13 +1,21 @@
 ---
 - name: Main Playbook
   hosts: localhost
-  gather_facts: true  # Ensure platform facts are gathered
-  become: true        # Required for sudo on Ubuntu
+  gather_facts: true
 
   tasks:
-    - name: Install Oh My Zsh
-      ansible.builtin.shell: |
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-      args:
-        creates: ~/.oh-my-zsh
+       # Get the current user
+    - name: Get current user
+      ansible.builtin.command: whoami
+      register: current_user
+
+    # Switch main shell to zsh
+    - name: Change default shell to zsh
+      ansible.builtin.shell: chsh -s $(which zsh) "{{ current_user.stdout }}"
+      become: true
+
+    - name: Include dotfiles tasks
+      include_tasks: tasks/dotfiles.yml
+
+- import_playbook: tasks/install-python.yml
         
