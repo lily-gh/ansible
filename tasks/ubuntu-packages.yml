@@ -9,12 +9,10 @@
   include_tasks: eza-dependencies.yml
   when: eza_check.rc != 0
 
-# Update apt cache
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: yes
 
-# Install packages with apt
 - name: Install packages on Ubuntu/WSL
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -24,7 +22,6 @@
     - ffmpeg
     - fzf
     - git
-    - gpg
     - eza
     - vim
     - zsh
