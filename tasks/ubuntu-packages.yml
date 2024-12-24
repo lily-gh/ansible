@@ -12,6 +12,7 @@
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: yes
+  become: true
 
 - name: Install packages on Ubuntu/WSL
   ansible.builtin.apt:
@@ -25,3 +26,4 @@
     - eza
     - vim
     - zsh
+  become: true

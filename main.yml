@@ -2,7 +2,6 @@
 - name: Main Playbook
   hosts: localhost
   gather_facts: true  # Ensure platform facts are gathered
-  become: true        # Required for sudo on Ubuntu
 
   tasks:
     - name: Include macOS tasks
@@ -28,7 +27,6 @@
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
         dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-      become: false
 
     - name: Install Powerlevel10k theme
       ansible.builtin.git:

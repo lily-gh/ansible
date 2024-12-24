@@ -3,7 +3,6 @@
 - name: Setup Python Environment
   hosts: localhost
   gather_facts: true
-  become: true
 
   tasks:
     - name: Install Miniconda on macOS
