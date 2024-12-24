@@ -15,12 +15,22 @@
       include_tasks: python/conda-ubuntu.yml
       when: ansible_facts['os_family'] == 'Debian'
 
-    #- name: Initialize conda
-    #  ansible.builtin.shell: $HOME/miniconda/bin/conda init
+    - name: Debug home directory
+      ansible.builtin.debug:
+        msg: "Home directory is {{ ansible_env.HOME }}"
 
-    #- name: Create Python 3.9 environment
-    #  ansible.builtin.shell: $HOME/miniconda/bin/conda create --name PyEnv3.9 python=3.9 -y
+    - name: Initialize conda
+      ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
 
-   # - name: Reload ~/.zshrc
-   #   ansible.builtin.shell: source ~/.zshrc
+    - name: Create Python 3.9 environment
+      ansible.builtin.shell: $HOME/miniconda/bin/conda create --name PyEnv3.9 python=3.9 -y
+      
+    - name: Append conda activate to ~/.zshrc
+      ansible.builtin.lineinfile:
+        path: $HOME/.zshrc
+        line: 'conda activate PyEnv3.9'
+        create: yes
+
+    - name: Reload ~/.zshrc
+      ansible.builtin.shell: source $HOME/.zshrc
     
