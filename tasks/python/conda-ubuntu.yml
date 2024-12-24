@@ -1,6 +1,5 @@
 ---
 
- Install Miniconda
 - name: Download Miniconda installer
   ansible.builtin.get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -9,4 +8,4 @@
 
 - name: Run Miniconda installer
   ansible.builtin.shell: bash /tmp/Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
-  
+
