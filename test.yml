@@ -3,7 +3,8 @@
   hosts: localhost
   gather_facts: true
 
-  tasks:
-    - name: Initialize conda
-      ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
-        
+  #tasks:
+  #  - name: Initialize conda
+  #    ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
+
+- import_playbook: tasks/install-python.yml
