@@ -20,19 +20,28 @@
     dest: $HOME/Meslo
     remote_src: yes
 
+- name: Set font destination based on OS
+  ansible.builtin.set_fact:
+    font_dest: >-
+      {{
+        (ansible_facts['os_family'] == 'Darwin') | ternary(ansible_env.HOME + '/Library/Fonts', ansible_env.HOME + '/.local/share/fonts')
+      }}
+
 - name: Copy specific font files to fonts directory
   ansible.builtin.copy:
-    src: $HOME/Meslo/{{ item }}
-    dest: $HOME/.local/share/fonts/
+    src: "{{ ansible_env.HOME }}/Meslo/{{ item }}"
+    dest: "{{ font_dest }}/"
     remote_src: yes
   with_items:
     - MesloLGLNerdFont-Regular.ttf
     - MesloLGLDZNerdFont-Bold.ttf
     - MesloLGLDZNerdFontMono-Regular.ttf
 
+# only in Ubuntu
 - name: Refresh font cache
   ansible.builtin.command:
     cmd: fc-cache -fv
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Remove font archive
   ansible.builtin.file:
