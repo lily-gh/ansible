@@ -17,17 +17,32 @@
       ansible.builtin.debug:
         msg: "Home directory is {{ ansible_env.HOME }}"
 
+    - name: Check if conda is already initialized in .zshrc
+      ansible.builtin.command: grep -q 'conda_setup' "{{ ansible_env.HOME }}/.zshrc"
+      register: conda_init_check
+      failed_when: false
+      changed_when: false
+
     - name: Initialize conda
       ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
-      when: "'conda_setup' not in lookup('file', '{{ ansible_env.HOME }}/.zshrc')"
+      when: conda_init_check.rc != 0
+
+    - name: Check if the PyEnv3.9 conda environment exists
+      ansible.builtin.command: $HOME/miniconda/bin/conda env list | grep -q '^PyEnv3\.9 '
+      register: conda_env_check
+      failed_when: false
+      changed_when: false
 
     - name: Create Python 3.9 environment
       ansible.builtin.shell: $HOME/miniconda/bin/conda create --name PyEnv3.9 python=3.9 -y
-      when: "'PyEnv3.9' not in lookup('ansible.builtin.shell', '$HOME/miniconda/bin/conda env list')"
-      
+      when: conda_env_check.rc != 0
+
     - name: Append conda activate to ~/.zshrc
       ansible.builtin.lineinfile:
-        path: $HOME/.zshrc
+        path: "{{ ansible_env.HOME }}/.zshrc"
         line: 'conda activate PyEnv3.9'
         create: yes
-      when: "'conda activate PyEnv3.9' not in lookup('file', '{{ ansible_env.HOME }}/.zshrc')"
+      when: 
+        - ansible_env.HOME is defined
+        - "'conda activate PyEnv3.9' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
+
