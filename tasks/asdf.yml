@@ -5,14 +5,24 @@
     repo: https://github.com/asdf-vm/asdf.git
     dest: "{{ ansible_env.HOME }}/.asdf"
 
+- name: Add asdf to PATH for all tasks
+  ansible.builtin.set_fact:
+    ansible_env.PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
+
 - name: Add Node.js plugin
-  ansible.builtin.shell: $HOME/.asdf/bin/asdf plugin-add nodejs
+  ansible.builtin.shell: asdf plugin-add nodejs
+  environment:
+    PATH: "{{ ansible_env.PATH }}"
 
 - name: Install Node.js latest version
-  ansible.builtin.shell: $HOME/.asdf/bin/asdf install nodejs latest
+  ansible.builtin.shell: asdf install nodejs latest
+  environment:
+    PATH: "{{ ansible_env.PATH }}"
 
 - name: Set global Node.js version
-  ansible.builtin.shell: $HOME/.asdf/bin/asdf global nodejs latest
+  ansible.builtin.shell: asdf global nodejs latest
+  environment:
+    PATH: "{{ ansible_env.PATH }}"
 
 - name: Check if asdf is initialized in .zshrc
   ansible.builtin.command: grep -q '.asdf' "{{ ansible_env.HOME }}/.zshrc"
