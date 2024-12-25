@@ -5,32 +5,6 @@
     repo: https://github.com/asdf-vm/asdf.git
     dest: "{{ ansible_env.HOME }}/.asdf"
 
-- name: Add asdf to PATH for all tasks
-  ansible.builtin.shell: echo 'export PATH=$PATH:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf' >> ~/.zshrc
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
-
-- name: Add Node.js plugin
-  ansible.builtin.shell: asdf plugin-add nodejs
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
-
-- name: Install Node.js latest version
-  ansible.builtin.shell: asdf install nodejs latest
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
-
-- name: Set global Node.js version
-  ansible.builtin.shell: asdf global nodejs latest
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
-
-- name: Check if asdf is initialized in .zshrc
-  ansible.builtin.command: grep -q '.asdf' "{{ ansible_env.HOME }}/.zshrc"
-  register: asdf_init_check
-  failed_when: false
-  changed_when: false
-
 - name: Initialize asdf in ~/.zshrc
   ansible.builtin.lineinfile:
     path: "{{ ansible_env.HOME }}/.zshrc"
@@ -39,3 +13,14 @@
   when: 
     - ansible_env.HOME is defined
     - "'.asdf' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
+
+- name: Add Node.js plugin
+  ansible.builtin.shell: asdf plugin-add nodejs
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
+
+- name: Install Node.js latest version
+  ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf install nodejs latest"
+
+- name: Set global Node.js version
+  ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf global nodejs latest"
