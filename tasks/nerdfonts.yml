@@ -1,0 +1,37 @@
+---
+
+- name: Ensure fonts directory exists
+  ansible.builtin.file:
+    path: ~/.local/share/fonts
+    state: directory
+    mode: '0755'
+
+- name: Download Meslo Nerd Fonts archive
+  ansible.builtin.get_url:
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.tar.xz
+    dest: $HOME/Meslo.tar.xz
+
+- name: Extract Meslo Nerd Fonts archive
+  ansible.builtin.unarchive:
+    src: $HOME/Meslo.tar.xz
+    dest: $HOME/fonts
+    remote_src: yes
+
+- name: Copy specific font files to fonts directory
+  ansible.builtin.copy:
+    src: $HOME/fonts/Meslo/{{ item }}
+    dest: "{{ ansible_env.HOME }}"/.local/share/fonts/
+    remote_src: yes
+  with_items:
+    - MesloLGLNerdFont-Regular.ttf
+    - MesloLGLDZNerdFont-Bold.ttf
+    - MesloLGLDZNerdFontMono-Regular.ttf
+
+- name: Refresh font cache
+  ansible.builtin.command:
+    cmd: fc-cache -fv
+
+- name: Remove font archive
+  ansible.builtin.file:
+    path: $HOME/Meslo.tar.xz
+    state: absent

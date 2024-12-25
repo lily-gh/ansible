@@ -47,6 +47,15 @@
     - name: Include dotfiles tasks
       include_tasks: tasks/dotfiles.yml
 
+    - name: Check if Meslo fonts directory exists
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts/Meslo"
+      register: meslo_fonts
+
+    - name: Include font installation playbook
+      include_tasks: nerdfonts.yml
+      when: not meslo_fonts.stat.exists
+
 - import_playbook: tasks/install-python.yml
 #- import_playbook: tasks/setup-ssh.yml
 #- import_playbook: tasks/clone-lilydevtools.yml 
