@@ -15,10 +15,10 @@
   ansible.builtin.shell: $HOME/.asdf/bin/asdf global nodejs latest
 
 - name: Check if asdf is initialized in .zshrc
-    ansible.builtin.command: grep -q '.asdf' "{{ ansible_env.HOME }}/.zshrc"
-    register: asdf_init_check
-    failed_when: false
-    changed_when: false
+  ansible.builtin.command: grep -q '.asdf' "{{ ansible_env.HOME }}/.zshrc"
+  register: asdf_init_check
+  failed_when: false
+  changed_when: false
 
 - name: Initialize asdf in ~/.zshrc
   ansible.builtin.lineinfile:
