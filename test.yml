@@ -3,8 +3,8 @@
   hosts: localhost
   gather_facts: true
 
-  #tasks:
-  #  - name: Initialize conda
-  #    ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
+  tasks:
+    - name: Include dotfiles tasks
+      include_tasks: tasks/dotfiles.yml
 
 - import_playbook: tasks/install-python.yml
