@@ -53,7 +53,7 @@
       register: meslo_fonts
 
     - name: Include font installation playbook
-      include_tasks: nerdfonts.yml
+      include_tasks: tasks/nerdfonts.yml
       when: not meslo_fonts.stat.exists
 
 - import_playbook: tasks/install-python.yml
