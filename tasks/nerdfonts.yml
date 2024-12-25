@@ -1,13 +1,13 @@
 ---
 
-- name: Ensure fonts directory exists
+- name: Ensure font directories exists
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: '0755'
   with_items:
     - $HOME/.local/share/fonts
-    - $HOME/fonts
+    - $HOME/Meslo
 
 - name: Download Meslo Nerd Fonts archive
   ansible.builtin.get_url:
@@ -17,12 +17,12 @@
 - name: Extract Meslo Nerd Fonts archive
   ansible.builtin.unarchive:
     src: $HOME/Meslo.tar.xz
-    dest: $HOME/fonts
+    dest: $HOME/Meslo
     remote_src: yes
 
 - name: Copy specific font files to fonts directory
   ansible.builtin.copy:
-    src: $HOME/fonts/Meslo/{{ item }}
+    src: $HOME/Meslo/{{ item }}
     dest: $HOME/.local/share/fonts/
     remote_src: yes
   with_items:
