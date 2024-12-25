@@ -13,17 +13,17 @@
 - name: Add Node.js plugin
   ansible.builtin.shell: asdf plugin-add nodejs
   environment:
-    PATH: "{{ ansible_env.PATH }}"
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
 
 - name: Install Node.js latest version
   ansible.builtin.shell: asdf install nodejs latest
   environment:
-    PATH: "{{ ansible_env.PATH }}"
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
 
 - name: Set global Node.js version
   ansible.builtin.shell: asdf global nodejs latest
   environment:
-    PATH: "{{ ansible_env.PATH }}"
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
 
 - name: Check if asdf is initialized in .zshrc
   ansible.builtin.command: grep -q '.asdf' "{{ ansible_env.HOME }}/.zshrc"
