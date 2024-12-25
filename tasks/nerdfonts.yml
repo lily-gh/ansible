@@ -2,9 +2,12 @@
 
 - name: Ensure fonts directory exists
   ansible.builtin.file:
-    path: ~/.local/share/fonts
+    path: "{{ item }}"
     state: directory
     mode: '0755'
+  with_items:
+    - $HOME/.local/share/fonts
+    - $HOME/fonts
 
 - name: Download Meslo Nerd Fonts archive
   ansible.builtin.get_url:
