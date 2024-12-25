@@ -21,4 +21,3 @@
   ansible.builtin.file:
     path: $HOME/Miniconda3-latest-Linux-x86_64.sh
     state: absent
-    missing_ok: true
