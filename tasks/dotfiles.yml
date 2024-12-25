@@ -9,6 +9,7 @@
     src: "dotfiles/{{ item }}"
     dest: "{{ ansible_env.HOME }}/{{ item }}"
     mode: '0644'
+    force: no
   loop:
     - .zshrc
     - .p10k.zsh
