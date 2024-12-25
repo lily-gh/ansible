@@ -6,7 +6,9 @@
     dest: "{{ ansible_env.HOME }}/.asdf"
 
 - name: Add asdf to PATH for all tasks
-  ansible.builtin.shell: export PATH=$PATH:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf
+  ansible.builtin.shell: echo 'export PATH=$PATH:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf' >> ~/.zshrc
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
 
 - name: Add Node.js plugin
   ansible.builtin.shell: asdf plugin-add nodejs
