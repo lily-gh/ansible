@@ -1,0 +1,30 @@
+---
+
+- name: Clone asdf repository
+  ansible.builtin.git:
+    repo: https://github.com/asdf-vm/asdf.git
+    dest: "{{ ansible_env.HOME }}/.asdf"
+
+- name: Add Node.js plugin
+  ansible.builtin.shell: $HOME/.asdf/bin/asdf plugin-add nodejs
+
+- name: Install Node.js latest version
+  ansible.builtin.shell: $HOME/.asdf/bin/asdf install nodejs latest
+
+- name: Set global Node.js version
+  ansible.builtin.shell: $HOME/.asdf/bin/asdf global nodejs latest
+
+- name: Check if asdf is initialized in .zshrc
+    ansible.builtin.command: grep -q '.asdf' "{{ ansible_env.HOME }}/.zshrc"
+    register: asdf_init_check
+    failed_when: false
+    changed_when: false
+
+- name: Initialize asdf in ~/.zshrc
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: '. "$HOME/.asdf/asdf.sh"'
+    create: yes
+  when: 
+    - ansible_env.HOME is defined
+    - "'.asdf' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
