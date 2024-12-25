@@ -15,7 +15,7 @@
     - "'.asdf' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
 - name: Add asdf to current shell session
-  ansible.builtin.shell: . $HOME/.asdf/asdf.sh
+  ansible.builtin.shell: . {{ ansible_env.HOME }}/.asdf/asdf.sh
 
 - name: Add Node.js plugin
   ansible.builtin.shell: asdf plugin-add nodejs
