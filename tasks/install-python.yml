@@ -16,10 +16,10 @@
     - name: Debug home directory
       ansible.builtin.debug:
         msg: "Home directory is {{ ansible_env.HOME }}"
-        
+
     - name: Initialize conda
       ansible.builtin.shell: $HOME/miniconda/bin/conda init zsh
-      when: "'conda_setup' not in lookup('file', '$HOME/.zshrc')"
+      when: "'conda_setup' not in lookup('file', '{{ ansible_env.HOME }}/.zshrc')"
 
     - name: Create Python 3.9 environment
       ansible.builtin.shell: $HOME/miniconda/bin/conda create --name PyEnv3.9 python=3.9 -y
@@ -30,4 +30,4 @@
         path: $HOME/.zshrc
         line: 'conda activate PyEnv3.9'
         create: yes
-      when: "'conda activate PyEnv3.9' not in lookup('file', '$HOME/.zshrc')"
+      when: "'conda activate PyEnv3.9' not in lookup('file', '{{ ansible_env.HOME }}/.zshrc')"
