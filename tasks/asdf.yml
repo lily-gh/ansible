@@ -14,16 +14,17 @@
     - ansible_env.HOME is defined
     - "'.asdf' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
-- name: Add asdf to current shell session
-  ansible.builtin.shell: . {{ ansible_env.HOME }}/.asdf/asdf.sh
-
 - name: Add Node.js plugin
   ansible.builtin.shell: asdf plugin-add nodejs
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
 
 - name: Install Node.js latest version
-  ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf install nodejs latest"
+  ansible.builtin.shell: |
+    . "$HOME/.asdf/asdf.sh"
+    $HOME/.asdf/bin/asdf install nodejs latest
+  args:
+    executable: /bin/zsh
 
 - name: Set global Node.js version
   ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf global nodejs latest"
