@@ -20,7 +20,7 @@
 - name: Copy specific font files to fonts directory
   ansible.builtin.copy:
     src: $HOME/fonts/Meslo/{{ item }}
-    dest: "{{ ansible_env.HOME }}"/.local/share/fonts/
+    dest: $HOME/.local/share/fonts/
     remote_src: yes
   with_items:
     - MesloLGLNerdFont-Regular.ttf
