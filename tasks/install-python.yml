@@ -46,3 +46,8 @@
         - ansible_env.HOME is defined
         - "'conda activate PyEnv3.9' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
+    - name: Install required Python packages
+      ansible.builtin.shell: |
+        $HOME/miniconda/bin/conda run -n PyEnv3.9 pip install pyperclip beautifulsoup4 requests
+      args:
+        executable: /bin/zsh
