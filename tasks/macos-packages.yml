@@ -1,5 +1,4 @@
 ---
-# Ensure Homebrew is installed
 - name: Check if Homebrew is installed
   ansible.builtin.command: which brew
   register: homebrew_check
@@ -12,21 +11,10 @@
   args:
     creates: /usr/local/bin/brew
 
-- name: Check if 'eza' command is available
-  ansible.builtin.command: which eza
-  register: eza_check
-  ignore_errors: true
-
-- name: Include eza dependencies if 'eza' is not installed
-  include_tasks: eza-dependencies-macos.yml
-  when: eza_check.rc != 0
-
-# Update Homebrew
 - name: Update Homebrew
   ansible.builtin.command: brew update
   when: homebrew_check.rc == 0
 
-# Install packages with Homebrew
 - name: Install packages on macOS
   ansible.builtin.homebrew:
     name: "{{ item }}"
