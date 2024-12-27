@@ -7,7 +7,7 @@ xcode-select --install
 sudo xcodebuild -license
 
 # Install ansible using pip in user mode
-python3 -m pip install --user ansible
+python3 -m pip install --user ansible --ignore-installed
 
 # Get the python base path
 PYTHON_BASEPATH=$(python3 -m site --user-base)

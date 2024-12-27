@@ -9,14 +9,21 @@
     - $HOME/.local/share/fonts
     - $HOME/Meslo
 
+- name: Determine archive file extension based on OS
+  ansible.builtin.set_fact:
+    archive_extension: >-
+      {{
+        (ansible_facts['os_family'] == 'Darwin') | ternary('zip', 'tar.xz')
+      }}
+
 - name: Download Meslo Nerd Fonts archive
   ansible.builtin.get_url:
-    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.tar.xz
-    dest: $HOME/Meslo.tar.xz
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.{{ archive_extension }}"
+    dest: "$HOME/Meslo.{{ archive_extension }}"
 
 - name: Extract Meslo Nerd Fonts archive
   ansible.builtin.unarchive:
-    src: $HOME/Meslo.tar.xz
+    src: "$HOME/Meslo.{{ archive_extension }}"
     dest: $HOME/Meslo
     remote_src: yes
 
