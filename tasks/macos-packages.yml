@@ -1,18 +1,15 @@
 ---
-- name: Check if Homebrew is installed
-  ansible.builtin.command: which brew
-  register: homebrew_check
-  ignore_errors: true
+- name: Install homebrew
+  include_role:
+    name: geerlingguy.mac.homebrew
 
-- name: Install Homebrew if not installed
-  ansible.builtin.shell: |
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  when: homebrew_check.rc != 0
-  args:
-    creates: /usr/local/bin/brew
-
-- name: Update Homebrew
-  ansible.builtin.command: brew update
+- name: Make sure homebrew bin is in path
+  ansible.builtin.lineinfile:
+    path: /etc/paths
+    state: present
+    line: '/opt/homebrew/bin'
+  become: true
+  become_user: root
 
 - name: Install packages on macOS
   ansible.builtin.homebrew:
