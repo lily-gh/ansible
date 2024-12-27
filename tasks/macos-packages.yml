@@ -13,7 +13,6 @@
 
 - name: Update Homebrew
   ansible.builtin.command: brew update
-  when: homebrew_check.rc == 0
 
 - name: Install packages on macOS
   ansible.builtin.homebrew:
@@ -29,3 +28,4 @@
     - zsh
     - zsh-syntax-highlighting
     - zsh-autosuggestions
+    - ansible
