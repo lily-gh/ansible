@@ -2,7 +2,7 @@
 - name: Check if Homebrew is installed
   ansible.builtin.command: which brew
   register: homebrew_check
-  ignore_errors: true
+  failed_when: false
   changed_when: false
 
 - name: Install Homebrew

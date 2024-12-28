@@ -22,9 +22,12 @@
   ansible.builtin.shell: bash "{{ ansible_env.HOME }}/miniconda3/miniconda.sh" -b -u -p "{{ ansible_env.HOME }}/miniconda3"
   when: conda_dirs.stdout == ''
 
-- name: Actibafo conda
+- name: Activate conda
   ansible.builtin.shell: source "{{ ansible_env.HOME }}/miniconda3/bin/activate"
   when: conda_dirs.stdout == ''
+
+- name: Add conda binary path to PATH
+  ansible.builtin.shell: export PATH="$PATH:$HOME/miniconda3/bin"
 
 - name: Remove Miniconda installer
   ansible.builtin.file:
