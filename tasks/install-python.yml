@@ -19,12 +19,23 @@
       failed_when: false
       changed_when: false
 
-    - name: Add conda binary path to PATH
-      ansible.builtin.shell: export PATH="$PATH:$HOME/miniconda3/bin"
-
-    - name: Initialize conda
-      ansible.builtin.shell: conda init --all
+    - name: Add conda binary path to PATH and initialize conda
+      ansible.builtin.shell: |
+        if [ -d "$HOME/miniconda3/bin" ]; then
+          export PATH="$PATH:$HOME/miniconda3/bin"
+        elif [ -d "$HOME/miniconda/bin" ]; then
+          export PATH="$PATH:$HOME/miniconda/bin"
+        fi
+        conda init --all
       when: conda_init_check.rc != 0
+    
+    - name: Activate conda
+      ansible.builtin.shell: |
+        if [ -d "$HOME/miniconda3/bin" ]; then
+          source "{{ ansible_env.HOME }}/miniconda3/bin/activate"
+        elif [ -d "$HOME/miniconda/bin" ]; then
+          source "{{ ansible_env.HOME }}/miniconda/bin/activate"
+        fi
 
     - name: Check if the PyEnv3.9 conda environment exists
       ansible.builtin.command: conda env list | grep -q '^PyEnv3\.9 '
