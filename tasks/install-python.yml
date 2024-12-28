@@ -8,6 +8,10 @@
     - name: Install Miniconda on Ubuntu
       include_tasks: python/conda-ubuntu.yml
       when: ansible_facts['os_family'] == 'Debian'
+    
+    - name: Install Miniconda on MacOS
+      include_tasks: python/conda-macos.yml
+      when: ansible_facts['os_family'] == 'Darwin'
 
     - name: Check if conda is already initialized in .zshrc
       ansible.builtin.command: grep -q 'conda_setup' "{{ ansible_env.HOME }}/.zshrc"
@@ -16,7 +20,7 @@
       changed_when: false
 
     - name: Initialize conda
-      ansible.builtin.shell: conda init zsh
+      ansible.builtin.shell: conda init --all
       when: conda_init_check.rc != 0
 
     - name: Check if the PyEnv3.9 conda environment exists
