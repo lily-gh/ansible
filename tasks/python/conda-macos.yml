@@ -1,0 +1,33 @@
+---
+- name: Check for existing conda directories
+  ansible.builtin.shell: ls -d $HOME/*conda* || true
+  register: conda_dirs
+  changed_when: false
+  failed_when: false
+
+- name: Create Miniconda directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/miniconda3"
+    state: directory
+  when: conda_dirs.stdout == ''
+
+- name: Download Miniconda installer for macOS
+  ansible.builtin.get_url:
+    url: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+    dest: "{{ ansible_env.HOME }}/miniconda3/miniconda.sh"
+    mode: '0755'
+  when: conda_dirs.stdout == ''
+
+- name: Run Miniconda installer
+  ansible.builtin.shell: bash "{{ ansible_env.HOME }}/miniconda3/miniconda.sh" -b -u -p "{{ ansible_env.HOME }}/miniconda3"
+  when: conda_dirs.stdout == ''
+
+- name: Actibafo conda
+  ansible.builtin.shell: source "{{ ansible_env.HOME }}/miniconda3/bin/activate"
+  when: conda_dirs.stdout == ''
+
+- name: Remove Miniconda installer
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/miniconda3/miniconda.sh"
+    state: absent
+  when: conda_dirs.stdout == ''
