@@ -9,13 +9,6 @@
       include_tasks: python/conda-ubuntu.yml
       when: ansible_facts['os_family'] == 'Debian'
 
-    - name: Set conda binary path based on OS
-      ansible.builtin.set_fact:
-        conda_path: >-
-          {{
-            (ansible_facts['os_family'] == 'Darwin') | ternary('', '$HOME/miniconda/bin/')
-          }}
-
     - name: Check if conda is already initialized in .zshrc
       ansible.builtin.command: grep -q 'conda_setup' "{{ ansible_env.HOME }}/.zshrc"
       register: conda_init_check
@@ -23,17 +16,17 @@
       changed_when: false
 
     - name: Initialize conda
-      ansible.builtin.shell: "{{ conda_path }}conda init zsh"
+      ansible.builtin.shell: conda init zsh
       when: conda_init_check.rc != 0
 
     - name: Check if the PyEnv3.9 conda environment exists
-      ansible.builtin.command: "{{ conda_path }}conda env list | grep -q '^PyEnv3\.9 '"
+      ansible.builtin.command: conda env list | grep -q '^PyEnv3\.9 '
       register: conda_env_check
       failed_when: false
       changed_when: false
 
     - name: Create Python 3.9 environment
-      ansible.builtin.shell: "{{ conda_path }}conda create --name PyEnv3.9 python=3.9 -y"
+      ansible.builtin.shell: conda create --name PyEnv3.9 python=3.9 -y
       when: conda_env_check.rc != 0
 
     - name: Append conda activate to ~/.zshrc
@@ -47,6 +40,6 @@
 
     - name: Install required Python packages
       ansible.builtin.shell: |
-        "{{ conda_path }}conda run -n PyEnv3.9 pip install pyperclip beautifulsoup4 requests"
+        conda run -n PyEnv3.9 pip install pyperclip beautifulsoup4 requests
       args:
         executable: /bin/zsh
