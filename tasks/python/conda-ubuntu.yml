@@ -17,9 +17,6 @@
   ansible.builtin.shell: bash $HOME/Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
   when: conda_dirs.stdout == ''
 
-- name: Add conda binary path to PATH
-  ansible.builtin.shell: export PATH="$PATH:$HOME/miniconda/bin"
-  
 - name: Remove Miniconda installer
   ansible.builtin.file:
     path: $HOME/Miniconda3-latest-Linux-x86_64.sh
