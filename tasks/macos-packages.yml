@@ -26,3 +26,5 @@
     - zsh-syntax-highlighting
     - zsh-autosuggestions
     - ansible
+    - iterm2
+    - minicoda
