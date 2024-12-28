@@ -39,3 +39,5 @@
   homebrew:
     name: iterm2
     state: present
+  register: iterm2_install
+  failed_when: iterm2_install.msg is defined and '"already installed" not in iterm2_install.msg'
