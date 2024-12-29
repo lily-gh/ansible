@@ -26,7 +26,7 @@
         PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
 
     - name: Check if the PyEnv3.9 conda environment exists
-      ansible.builtin.command: conda env list | grep -q '^PyEnv3\.9 '
+      ansible.builtin.shell: conda env list | grep -q 'PyEnv3.9'
       register: conda_env_check
       failed_when: false
       changed_when: false
