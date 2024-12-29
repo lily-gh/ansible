@@ -60,7 +60,7 @@
         patterns: "Meslo*"
       register: meslo_files
 
-    - name: Include font installation playbook
+    - name: Include font installation tasks
       include_tasks: tasks/nerdfonts.yml
       when: meslo_files.matched == 0
 

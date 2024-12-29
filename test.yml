@@ -4,9 +4,14 @@
   gather_facts: true
 
   tasks:
-    - name: Change default shell to zsh
-      ansible.builtin.shell: chsh -s $(which zsh) "{{ ansible_env.USER }}"
-      become: true
+    - name: Check if ~/.asdf directory exists
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.asdf"
+      register: asdf_folder
+
+    - name: Include asdf tasks if ~/.asdf does not exist
+      include_tasks: tasks/asdf.yml
+      when: not asdf_folder.stat.exists
 
 
-- import_playbook: tasks/install-python.yml
+#- import_playbook: tasks/install-python.yml
