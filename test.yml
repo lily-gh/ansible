@@ -4,46 +4,9 @@
   gather_facts: true
 
   tasks:
-    - name: Update apt cache
-      ansible.builtin.apt:
-        update_cache: yes
+    - name: Change default shell to zsh
+      ansible.builtin.shell: chsh -s $(which zsh) "{{ current_user.stdout }}"
       become: true
 
-    - name: Install packages on Ubuntu/WSL
-      ansible.builtin.apt:
-        name: "{{ item }}"
-        state: latest
-      with_items:
-        - git
-        - vim
-        - zsh
-      become: true
 
-    - name: Install Oh My Zsh
-      ansible.builtin.shell: |
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-      args:
-        creates: ~/.oh-my-zsh
-
-    - name: Ensure zsh-autosuggestions is installed
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-
-    - name: Ensure zsh-syntax-highlighting is installed
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-
-    - name: Install Powerlevel10k theme
-      ansible.builtin.git:
-        repo: https://github.com/romkatv/powerlevel10k.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
-        version: master
-
-    - name: Include dotfiles tasks
-      include_tasks: tasks/dotfiles.yml
-
-    - name: Include asdf
-      include_tasks: tasks/asdf.yml
-
+- import_playbook: tasks/install-python.yml
