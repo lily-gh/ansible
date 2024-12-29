@@ -5,7 +5,7 @@
 
   tasks:
     - name: Change default shell to zsh
-      ansible.builtin.shell: chsh -s $(which zsh) "{{ current_user.stdout }}"
+      ansible.builtin.shell: chsh -s $(which zsh) "{{ ansible_env.USER }}"
       become: true
 
 
