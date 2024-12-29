@@ -42,3 +42,14 @@ ansible-playbook main.yml --ask-become-pass --ask-vault-pass
 
 ## Quality Certificate
 <img src="https://github.com/lily-gh/devtools/blob/img/img/works_on_my_machine.png" width="350" alt="Works on my machine" /> ![Kitty](https://github.com/lily-gh/devtools/blob/img/img/kitty_paws.gif)
+
+
+## TODO
+  - automate iterm2 install on macos
+  - asdf for java?
+  - automate installation of:
+    - vscode
+    - edge
+    - firefox
+    - 1password
+  - add Maple Mono font
