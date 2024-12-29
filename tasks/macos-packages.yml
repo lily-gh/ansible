@@ -34,3 +34,4 @@
     - zsh-syntax-highlighting
     - zsh-autosuggestions
     - ansible
+    - yt-dlp

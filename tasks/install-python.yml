@@ -30,6 +30,8 @@
       register: conda_env_check
       failed_when: false
       changed_when: false
+      environment:
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
 
     - name: Create Python 3.9 environment
       ansible.builtin.shell: conda create --name PyEnv3.9 python=3.9 -y
@@ -47,9 +49,5 @@
         - "'conda activate PyEnv3.9' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
     - name: Install required Python packages
-      ansible.builtin.shell: |
-        conda run -n PyEnv3.9 pip install pyperclip beautifulsoup4 requests
-      args:
-        executable: /bin/zsh
-      environment:
-        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
+      include_tasks: python/python-packages.yml
+      
