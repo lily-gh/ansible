@@ -8,6 +8,7 @@
     - requests
   register: packages_check
   ignore_errors: yes
+  failed_when: false
 
 - name: Install missing Python packages
   ansible.builtin.shell: |
