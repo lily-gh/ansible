@@ -33,6 +33,10 @@
       environment:
         PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
 
+    - name: Debug conda_env_check
+      ansible.builtin.debug:
+        var: conda_env_check
+
     - name: Create Python 3.9 environment
       ansible.builtin.shell: conda create --name PyEnv3.9 python=3.9 -y
       when: conda_env_check.rc != 0
