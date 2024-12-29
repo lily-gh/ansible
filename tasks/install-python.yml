@@ -13,15 +13,6 @@
       include_tasks: python/conda-macos.yml
       when: ansible_facts['os_family'] == 'Darwin'
 
-    - name: Set conda path environment variable
-      set_fact:
-        conda_path: >
-          {% if ansible_facts['os_family'] == 'Darwin' %}
-            {{ ansible_env.HOME }}/miniconda3/bin
-          {% else %}
-            {{ ansible_env.HOME }}/miniconda/bin
-          {% endif %}
-      
     - name: Check if conda is already initialized in .zshrc
       ansible.builtin.command: grep -q 'conda_setup' "{{ ansible_env.HOME }}/.zshrc"
       register: conda_init_check
@@ -32,7 +23,7 @@
       ansible.builtin.shell: conda init zsh
       when: conda_init_check.rc != 0
       environment:
-        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
 
     - name: Check if the PyEnv3.9 conda environment exists
       ansible.builtin.command: conda env list | grep -q '^PyEnv3\.9 '
@@ -44,9 +35,8 @@
       ansible.builtin.shell: conda create --name PyEnv3.9 python=3.9 -y
       when: conda_env_check.rc != 0
       environment:
-        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
       
-
     - name: Append conda activate to ~/.zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
@@ -55,8 +45,6 @@
       when: 
         - ansible_env.HOME is defined
         - "'conda activate PyEnv3.9' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
-      environment:
-        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
 
     - name: Install required Python packages
       ansible.builtin.shell: |
@@ -64,4 +52,4 @@
       args:
         executable: /bin/zsh
       environment:
-        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
