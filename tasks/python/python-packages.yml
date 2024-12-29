@@ -10,6 +10,10 @@
   ignore_errors: yes
   failed_when: false
 
+- name: Debug packages_check
+  ansible.builtin.debug:
+    var: packages_check
+
 - name: Install missing Python packages
   ansible.builtin.shell: |
     conda run -n PyEnv3.9 pip install {{ missing_packages | join(' ') }}
