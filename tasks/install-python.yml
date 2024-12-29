@@ -13,29 +13,26 @@
       include_tasks: python/conda-macos.yml
       when: ansible_facts['os_family'] == 'Darwin'
 
+    - name: Set conda path environment variable
+      set_fact:
+        conda_path: >
+          {% if ansible_facts['os_family'] == 'Darwin' %}
+            {{ ansible_env.HOME }}/miniconda3/bin
+          {% else %}
+            {{ ansible_env.HOME }}/miniconda/bin
+          {% endif %}
+      
     - name: Check if conda is already initialized in .zshrc
       ansible.builtin.command: grep -q 'conda_setup' "{{ ansible_env.HOME }}/.zshrc"
       register: conda_init_check
       failed_when: false
       changed_when: false
 
-    - name: Add conda binary path to PATH and initialize conda
-      ansible.builtin.shell: |
-        if [ -d "$HOME/miniconda3/bin" ]; then
-          export PATH="$PATH:$HOME/miniconda3/bin"
-        elif [ -d "$HOME/miniconda/bin" ]; then
-          export PATH="$PATH:$HOME/miniconda/bin"
-        fi
-        conda init --all
+    - name: Initialize conda if not already done
+      ansible.builtin.shell: conda init zsh
       when: conda_init_check.rc != 0
-    
-    - name: Activate conda
-      ansible.builtin.shell: |
-        if [ -d "$HOME/miniconda3/bin" ]; then
-          source "{{ ansible_env.HOME }}/miniconda3/bin/activate"
-        elif [ -d "$HOME/miniconda/bin" ]; then
-          source "{{ ansible_env.HOME }}/miniconda/bin/activate"
-        fi
+      environment:
+        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
 
     - name: Check if the PyEnv3.9 conda environment exists
       ansible.builtin.command: conda env list | grep -q '^PyEnv3\.9 '
@@ -46,6 +43,9 @@
     - name: Create Python 3.9 environment
       ansible.builtin.shell: conda create --name PyEnv3.9 python=3.9 -y
       when: conda_env_check.rc != 0
+      environment:
+        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
+      
 
     - name: Append conda activate to ~/.zshrc
       ansible.builtin.lineinfile:
@@ -55,9 +55,13 @@
       when: 
         - ansible_env.HOME is defined
         - "'conda activate PyEnv3.9' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
+      environment:
+        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
 
     - name: Install required Python packages
       ansible.builtin.shell: |
         conda run -n PyEnv3.9 pip install pyperclip beautifulsoup4 requests
       args:
         executable: /bin/zsh
+      environment:
+        PATH: "{{ conda_path }}:{{ ansible_env.PATH }}"
