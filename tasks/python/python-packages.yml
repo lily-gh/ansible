@@ -24,7 +24,7 @@
 # on macOS it is installed via brew
 - name: Install yt-dlp on Ubuntu
   ansible.builtin.shell: |
-    conda run -n PyEnv3.9 pip install yt-dlp }}
+    conda run -n PyEnv3.9 pip install yt-dlp
   args:
     executable: /bin/zsh
   environment:
