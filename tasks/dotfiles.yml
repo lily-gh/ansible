@@ -1,9 +1,5 @@
 ---
 
-- name: Debug home directory
-  ansible.builtin.debug:
-    msg: "Home directory is {{ ansible_env.HOME }}"
-
 - name: Setup dotfiles
   ansible.builtin.copy:
     src: "dotfiles/{{ item }}"
