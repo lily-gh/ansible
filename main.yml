@@ -34,14 +34,8 @@
         dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
         version: master
 
-    # Get the current user
-    - name: Get current user
-      ansible.builtin.command: whoami
-      register: current_user
-
-    # Switch main shell to zsh
     - name: Change default shell to zsh
-      ansible.builtin.shell: chsh -s $(which zsh) "{{ current_user.stdout }}"
+      ansible.builtin.shell: chsh -s $(which zsh) "{{ ansible_env.USER }}"
       become: true
 
     - name: Include dotfiles tasks
