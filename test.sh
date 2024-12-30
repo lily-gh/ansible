@@ -1,10 +1,9 @@
 #!/bin/bash
 
+ if [ ! -d "$(python3 -m site --user-base)/lib/python3.*/site-packages/ansible" ]; then
+    echo "Installing Ansible using pip..."
+  else
+    echo "Ansible is already installed."
+  fi
 
-# Get the python base path
-PYTHON_BASEPATH=$(python3 -m site --user-base)
-
-# Add the base bin directory of preinstalled python to PATH
-export PATH="$PATH:$PYTHON_BASEPATH/bin"
-
-ansible-playbook test.yml --ask-become-pass
+#ansible-playbook test.yml --ask-become-pass
