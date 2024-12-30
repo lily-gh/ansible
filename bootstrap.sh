@@ -38,7 +38,7 @@ if [ "$OS" == "Darwin" ]; then
 
   # assures homebrew is installed
   ansible-galaxy install -r requirements.yml
-else [ -f "/etc/os-release" ]; then
+else
   # Linux/Ubuntu specific tasks
 
   # Check if Ansible is installed
