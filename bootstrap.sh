@@ -22,12 +22,15 @@ if [ "$OS" == "Darwin" ]; then
     echo "Xcode Command Line Tools already installed. ✅"
   fi
 
-  # Check if the Ansible folder exists
-  if [ ! -d "$(python3 -m site --user-base)/lib/python3.*/site-packages/ansible" ]; then
+  # Check if Ansible is already installed
+  USER_BASE=$(python3 -m site --user-base)
+  ANSIBLE_PATH=$(find "$USER_BASE/lib" -type d -path "*/site-packages/ansible" 2>/dev/null)
+
+  if [ -n "$ANSIBLE_PATH" ]; then
+    echo "Ansible is already installed at: $ANSIBLE_PATH"
+  else
     echo "Installing Ansible using pip..."
     python3 -m pip install --user ansible --ignore-installed
-  else
-    echo "Ansible is already installed."
   fi
 
   # Get the Python base path
