@@ -4,10 +4,10 @@
 
   tasks:
     - name: Install Oh My Zsh
-        ansible.builtin.shell: |
-          sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-        args:
-          creates: ~/.oh-my-zsh
+      ansible.builtin.shell: |
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      args:
+        creates: ~/.oh-my-zsh
 
     - name: Ensure zsh-autosuggestions is installed
       ansible.builtin.git:
