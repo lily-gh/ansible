@@ -11,15 +11,15 @@
       args:
         creates: "{{ ansible_env.HOME }}/.zoxide"
 
-    - name: Export ~/.local/bin on ~/.zshrc
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.zshrc"
-        line: 'export PATH="$PATH:{{ ansible_env.HOME }}/.local/bin"'
-        create: yes
-
-    - name: Initialize zoxide .zshrc
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.zshrc"
-        line: 'eval "$(zoxide init zsh)"'
-        insertafter: EOF
-        state: present
+    #- name: Export ~/.local/bin on ~/.zshrc
+    #  ansible.builtin.lineinfile:
+    #    path: "{{ ansible_env.HOME }}/.zshrc"
+    #    line: 'export PATH="$PATH:{{ ansible_env.HOME }}/.local/bin"'
+    #    create: yes
+    #
+    #- name: Initialize zoxide .zshrc
+    #  ansible.builtin.lineinfile:
+    #    path: "{{ ansible_env.HOME }}/.zshrc"
+    #    line: 'eval "$(zoxide init zsh)"'
+    #    insertafter: EOF
+    #    state: present
