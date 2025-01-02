@@ -1,13 +1,16 @@
 ---
+- name: Setup Dotfiles
+  hosts: localhost
 
-- name: Setup dotfiles
-  ansible.builtin.copy:
-    src: "dotfiles/{{ item }}"
-    dest: "{{ ansible_env.HOME }}/{{ item }}"
-    mode: '0644'
-  loop:
-    - .zshrc
-    - .p10k.zsh
-    - .bat.conf
-    - .ideavimrc
-    - .vimrc
+  tasks:
+    - name: Copy dotfiles
+      ansible.builtin.copy:
+        src: "dotfiles/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
+        mode: '0644'
+      with_items:
+        - .zshrc
+        - .p10k.zsh
+        - .bat.conf
+        - .ideavimrc
+        - .vimrc

@@ -12,51 +12,11 @@
       include_tasks: tasks/ubuntu-packages.yml
       when: ansible_facts['os_family'] == 'Debian'
 
-    - name: Install Oh My Zsh
-      ansible.builtin.shell: |
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-      args:
-        creates: ~/.oh-my-zsh
-
-    - name: Ensure zsh-autosuggestions is installed
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-
-    - name: Ensure zsh-syntax-highlighting is installed
-      ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-
-    - name: Install Powerlevel10k theme
-      ansible.builtin.git:
-        repo: https://github.com/romkatv/powerlevel10k.git
-        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
-        version: master
-
-    - name: Change default shell to zsh
-      ansible.builtin.shell: chsh -s $(which zsh) "{{ ansible_env.USER }}"
-      become: true
-
-    - name: Include dotfiles tasks
-      include_tasks: tasks/dotfiles.yml
-
-    
-
-    - name: Include font installation tasks
-      include_tasks: tasks/nerdfonts.yml
-      when: meslo_files.matched == 0
-
-    - name: Check if ~/.asdf directory exists
-      ansible.builtin.stat:
-        path: "{{ ansible_env.HOME }}/.asdf"
-      register: asdf_folder
-
-    - name: Include asdf tasks if ~/.asdf does not exist
-      include_tasks: tasks/asdf.yml
-      when: not asdf_folder.stat.exists
-
+- import_playbook: tasks/ohmyzsh.yml
+- import_playbook: tasks/dotfiles.yml
+- import_playbook: tasks/zoxide.yml
 - import_playbook: tasks/nerdfonts.yml
+- import_playbook: tasks/asdf.yml
 - import_playbook: tasks/install-python.yml
 #- import_playbook: tasks/setup-ssh.yml
 #- import_playbook: tasks/clone-lilydevtools.yml 
