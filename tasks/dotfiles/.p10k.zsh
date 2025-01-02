@@ -53,7 +53,7 @@
     goenv                   # go environment (https://github.com/syndbg/goenv)
     nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
     nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
-    nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
+    #nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
     # node_version          # node.js version
     # go_version            # go version (https://golang.org)
     # rust_version          # rustc version (https://www.rust-lang.org)
@@ -92,7 +92,7 @@
     # vpn_ip                # virtual private network indicator
     # load                  # CPU load
     # disk_usage            # disk usage
-    ram                     # free RAM
+    ram                   # free RAM
     # swap                  # used swap
     todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
     timewarrior             # timewarrior tracking status (https://timewarrior.net/)
@@ -163,7 +163,6 @@
   typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='\uE0B0'
   # Separator between different-color segments on the right.
   typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0B2'
-  # The right end of left prompt.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL='\uE0B0'
   # The left end of right prompt.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL='\uE0B2'
@@ -179,7 +178,7 @@
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color.
   typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=232
-  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=040
+  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=253
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
 
@@ -208,7 +207,7 @@
 
   ##################################[ dir: current directory ]##################################
   # Current directory background color.
-  typeset -g POWERLEVEL9K_DIR_BACKGROUND=171
+  typeset -g POWERLEVEL9K_DIR_BACKGROUND=170
   # Default current directory foreground color.
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=254
   # If directory is too long, shorten some of its segments to the shortest possible unique
@@ -347,7 +346,7 @@
 
   #####################################[ vcs: git status ]######################################
   # Version control system colors.
-  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=039
+  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#77d9ff'
   typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=214
   typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=039
   typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=214
@@ -811,7 +810,7 @@
   ######################################[ ram: free RAM ]#######################################
   # RAM color.
   typeset -g POWERLEVEL9K_RAM_FOREGROUND=0
-  typeset -g POWERLEVEL9K_RAM_BACKGROUND=202
+  typeset -g POWERLEVEL9K_RAM_BACKGROUND=177
   # Custom icon.
   # typeset -g POWERLEVEL9K_RAM_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
@@ -941,7 +940,7 @@
   #####################[ anaconda: conda environment (https://conda.io/) ]######################
   # Anaconda environment color.
   typeset -g POWERLEVEL9K_ANACONDA_FOREGROUND=0
-  typeset -g POWERLEVEL9K_ANACONDA_BACKGROUND=4
+  typeset -g POWERLEVEL9K_ANACONDA_BACKGROUND=222
 
   # Anaconda segment format. The following parameters are available within the expansion.
   #
@@ -1030,7 +1029,7 @@
   ##############[ nvm: node.js version from nvm (https://github.com/nvm-sh/nvm) ]###############
   # Nvm color.
   typeset -g POWERLEVEL9K_NVM_FOREGROUND=0
-  typeset -g POWERLEVEL9K_NVM_BACKGROUND=5
+  typeset -g POWERLEVEL9K_NVM_BACKGROUND=121
   # Custom icon.
   # typeset -g POWERLEVEL9K_NVM_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
