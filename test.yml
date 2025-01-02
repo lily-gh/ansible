@@ -4,14 +4,15 @@
   gather_facts: true
 
   tasks:
-    - name: Check if ~/.asdf directory exists
-      ansible.builtin.stat:
-        path: "{{ ansible_env.HOME }}/.asdf"
-      register: asdf_folder
+    - name: Install packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - curl
+        - unzip
+      become: true
 
-    - name: Include asdf tasks if ~/.asdf does not exist
-      include_tasks: tasks/asdf.yml
-      when: not asdf_folder.stat.exists
 
 
-#- import_playbook: tasks/install-python.yml
+- import_playbook: tasks/nerdfonts.yml

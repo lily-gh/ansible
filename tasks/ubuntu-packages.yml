@@ -14,11 +14,13 @@
     update_cache: yes
   become: true
 
-- name: Install packages on Ubuntu/WSL
+- name: Install packages
   ansible.builtin.apt:
     name: "{{ item }}"
     state: latest
   with_items:
+    - curl
+    - unzip
     - bat
     - ffmpeg
     - fzf
