@@ -29,6 +29,8 @@
       environment:
         PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
       when: "'nodejs' not in lookup('pipe', 'asdf plugin list', errors='ignore')"
+      environment:
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin"
 
     - name: Install Node.js latest version
       ansible.builtin.shell: |
@@ -37,7 +39,11 @@
       args:
         executable: /bin/zsh
       when: "'nodejs' not in lookup('pipe', 'asdf list nodejs', errors='ignore')"
+      environment:
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin"
 
     - name: Set global Node.js version
       ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf global nodejs latest"
       when: "'nodejs' not in lookup('pipe', 'asdf global nodejs', errors='ignore')"
+      environment:
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin"
