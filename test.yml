@@ -4,17 +4,19 @@
   gather_facts: true
 
   tasks:
-    - name: Install packages
-      ansible.builtin.apt:
-        name: "{{ item }}"
-        state: latest
-      with_items:
-        - git
-        - curl
-        - unzip
-        - zsh
-      become: true
+    #- name: Install packages
+    #  ansible.builtin.apt:
+    #    name: "{{ item }}"
+    #    state: latest
+    #  with_items:
+    #    - git
+    #    - curl
+    #    - unzip
+    #    - zsh
+    #  become: true
 
 
 
+- import_playbook: tasks/ohmyzsh.yml
+- import_playbook: tasks/dotfiles.yml
 - import_playbook: tasks/asdf.yml
