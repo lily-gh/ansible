@@ -10,4 +10,4 @@ else
     echo "Ansible is already installed."
 fi
 
-ansible-playbook test.yml --ask-become-pass
+ansible-playbook test.yml --ask-become-pass -vvvv
