@@ -8,7 +8,7 @@
       ansible.builtin.git:
         repo: https://github.com/asdf-vm/asdf.git
         dest: "{{ ansible_env.HOME }}/.asdf"
-      when: not "{{ ansible_env.HOME }}/.asdf" is exists
+      when: not ansible_env.HOME + '/.asdf' is exists
 
     - name: Initialize asdf in ~/.zshrc
       ansible.builtin.lineinfile:
