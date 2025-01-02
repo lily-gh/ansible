@@ -1,35 +1,39 @@
 ---
+- name: Install asdf
+  hosts: localhost
+  gather_facts: true  # Ensure platform facts are gathered
 
-- name: Clone asdf repository
-  ansible.builtin.git:
-    repo: https://github.com/asdf-vm/asdf.git
-    dest: "{{ ansible_env.HOME }}/.asdf"
-  args:
-    creates: "{{ ansible_env.HOME }}/.asdf"
+  tasks:
+    - name: Clone asdf repository
+      ansible.builtin.git:
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: "{{ ansible_env.HOME }}/.asdf"
+      args:
+        creates: "{{ ansible_env.HOME }}/.asdf"
 
-- name: Initialize asdf in ~/.zshrc
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_env.HOME }}/.zshrc"
-    line: '. "$HOME/.asdf/asdf.sh"'
-    create: yes
-  when: 
-    - ansible_env.HOME is defined
-    - "'.asdf' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
+    - name: Initialize asdf in ~/.zshrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        line: '. "$HOME/.asdf/asdf.sh"'
+        create: yes
+      when: 
+        - ansible_env.HOME is defined
+        - "'.asdf' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
-- name: Add Node.js plugin
-  ansible.builtin.shell: asdf plugin-add nodejs
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
-  when: "'nodejs' not in lookup('pipe', 'asdf plugin list', errors='ignore')"
+    - name: Add Node.js plugin
+      ansible.builtin.shell: asdf plugin-add nodejs
+      environment:
+        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
+      when: "'nodejs' not in lookup('pipe', 'asdf plugin list', errors='ignore')"
 
-- name: Install Node.js latest version
-  ansible.builtin.shell: |
-    . "$HOME/.asdf/asdf.sh"
-    $HOME/.asdf/bin/asdf install nodejs latest
-  args:
-    executable: /bin/zsh
-  when: "'nodejs' not in lookup('pipe', 'asdf list nodejs', errors='ignore')"
+    - name: Install Node.js latest version
+      ansible.builtin.shell: |
+        . "$HOME/.asdf/asdf.sh"
+        $HOME/.asdf/bin/asdf install nodejs latest
+      args:
+        executable: /bin/zsh
+      when: "'nodejs' not in lookup('pipe', 'asdf list nodejs', errors='ignore')"
 
-- name: Set global Node.js version
-  ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf global nodejs latest"
-  when: "'nodejs' not in lookup('pipe', 'asdf global nodejs', errors='ignore')"
+    - name: Set global Node.js version
+      ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf global nodejs latest"
+      when: "'nodejs' not in lookup('pipe', 'asdf global nodejs', errors='ignore')"
