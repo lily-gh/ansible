@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Maple font directories exists
+  ansible.builtin.file:
+    path: $HOME/Maple
+    state: directory
+    mode: '0755'
+
 - name: Download Maple Fonts archive
   ansible.builtin.get_url:
     url: "https://github.com/subframe7536/maple-font/releases/download/v7.0-beta33/MapleMonoNL-NF-unhinted.zip"

@@ -2,11 +2,9 @@
 
 - name: Ensure Meslo font directories exists
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: $HOME/Meslo
     state: directory
     mode: '0755'
-  with_items:
-    - $HOME/Meslo
 
 - name: Download Meslo Fonts archive
   ansible.builtin.get_url:
