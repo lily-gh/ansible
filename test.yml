@@ -17,6 +17,6 @@
 
 
 
-- import_playbook: tasks/ohmyzsh.yml
-- import_playbook: tasks/dotfiles.yml
+#- import_playbook: tasks/ohmyzsh.yml
+#- import_playbook: tasks/dotfiles.yml
 - import_playbook: tasks/asdf.yml
