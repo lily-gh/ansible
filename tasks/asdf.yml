@@ -4,13 +4,16 @@
   gather_facts: true  # Ensure platform facts are gathered
 
   tasks:
+    - name: Check if ~/.asdf directory exists
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.asdf"
+      register: asdf_dir
+
     - name: Clone asdf repository
       ansible.builtin.git:
         repo: https://github.com/asdf-vm/asdf.git
         dest: "{{ ansible_env.HOME }}/.asdf"
-      args:
-        creates: "{{ ansible_env.HOME }}/.asdf"
-
+      when: not asdf_dir.stat.exists
 
     - name: Initialize asdf in ~/.zshrc
       ansible.builtin.lineinfile:
