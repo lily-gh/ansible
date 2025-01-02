@@ -6,9 +6,9 @@
 
   tasks:
     - name: Check if ~/.zoxide directory exists
-        ansible.builtin.stat:
-          path: "{{ ansible_env.HOME }}/.zoxide"
-        register: zoxide_dir
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.zoxide"
+      register: zoxide_dir
         
     - name: Download and install zoxide
       ansible.builtin.shell: |
