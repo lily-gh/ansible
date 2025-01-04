@@ -1,34 +1,29 @@
 ---
-- name: Install apps on Ubuntu
-  hosts: localhost
-  gather_facts: true
-  become: true
 
-tasks:
-  - name: Add repositories for additional apps
-    ansible.builtin.apt_repository:
-      repo: "{{ item.repo }}"
-      state: present
-    with_items:
-      - { repo: 'ppa:agornostal/ulauncher' }  # Example for apps requiring PPAs
+- name: Add repositories for additional apps
+  ansible.builtin.apt_repository:
+    repo: "{{ item.repo }}"
+    state: present
+  with_items:
+    - { repo: 'ppa:agornostal/ulauncher' }  # Example for apps requiring PPAs
 
-  - name: Install apps
-    ansible.builtin.apt:
-      name: "{{ item }}"
-      state: latest
-    with_items:
-      - docker.io
-      - telegram-desktop
-      - code
-      - vlc
-      - microsoft-edge-stable
-    ignore_errors: yes
+- name: Install apps
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - docker.io
+    - telegram-desktop
+    - code
+    - vlc
+    - microsoft-edge-stable
+  ignore_errors: yes
 
-  - name: Download and install 1Password
-    ansible.builtin.shell: |
-      curl -s https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
-      echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | tee /etc/apt/sources.list.d/1password.list
-      apt update
-      apt install -y 1password
-    args:
-      creates: /usr/bin/1password
+- name: Download and install 1Password
+  ansible.builtin.shell: |
+    curl -s https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+    echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | tee /etc/apt/sources.list.d/1password.list
+    apt update
+    apt install -y 1password
+  args:
+    creates: /usr/bin/1password
