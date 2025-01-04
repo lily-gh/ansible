@@ -1,13 +1,5 @@
 ---
 
-- name: Add repositories for additional apps
-  ansible.builtin.apt_repository:
-    repo: "{{ item.repo }}"
-    state: present
-  with_items:
-    - { repo: 'ppa:agornostal/ulauncher' }  # Example for apps requiring PPAs
-  become: true
-
 - name: Install apps
   ansible.builtin.apt:
     name: "{{ item }}"
