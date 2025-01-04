@@ -1,0 +1,20 @@
+---
+- name: Install apps on macOS
+  hosts: localhost
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Install apps
+      ansible.builtin.homebrew:
+        name: "{{ item }}"
+      ignore_errors: yes
+      with_items:
+        - 1password
+        - docker
+        - iterm2
+        - telegram
+        - visual-studio-code
+        - vlc
+        - microsoft-edge
+        - slack
