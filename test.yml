@@ -1,20 +1,20 @@
 ---
-- name: Main Playbook
+- name: Test install packages with homebrew cask
   hosts: localhost
   gather_facts: true
 
   tasks:
-    #- name: Install packages
-    #  ansible.builtin.apt:
-    #    name: "{{ item }}"
-    #    state: latest
-    #  with_items:
-    #    - git
-    #    - curl
-    #    - unzip
-    #    - zsh
-    #  become: true
-
+    - name: Install core packages via brew casks
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+      ignore_errors: yes
+      with_items:
+        - 1password
+        - docker
+        - iterm2
+        - telegram
+        - visual-studio-code
+        - vlc
 
 
 #- import_playbook: tasks/ohmyzsh.yml
