@@ -2,7 +2,6 @@
 - name: Install Apps
   hosts: localhost
   gather_facts: true
-  become: true
 
   tasks:
     - name: Include macOS apps
