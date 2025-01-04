@@ -45,11 +45,4 @@ ansible-playbook main.yml --ask-become-pass --ask-vault-pass
 
 
 ## TODO
-  - automate iterm2 install on macos
   - asdf for java?
-  - automate installation of:
-    - vscode
-    - edge
-    - firefox
-    - 1password
-  - add Maple Mono font
