@@ -15,6 +15,7 @@
         - telegram
         - visual-studio-code
         - vlc
+        - microsoft-edge
 
 
 #- import_playbook: tasks/ohmyzsh.yml
