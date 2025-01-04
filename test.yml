@@ -9,14 +9,8 @@
       ansible.builtin.debug:
         msg: "Home directory is {{ ansible_env.HOME }}"
       
-    - name: Install macOS apps
-      import_playbook: tasks/apps-macos.yml
-      when: ansible_facts['os_family'] == 'Darwin'
 
-    - name: Install Ubuntu apps
-      import_playbook: tasks/apps-ubuntu.yml
-      when: ansible_facts['os_family'] == 'Debian'
-
+import_playbook: tasks/install-apps.yml
 #- import_playbook: tasks/dotfiles.yml
 #- import_playbook: tasks/zoxide.yml
 #- name: Import macOS specific playbook
