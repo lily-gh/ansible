@@ -27,8 +27,6 @@
     dest: /etc/apt/sources.list.d/microsoft-edge.list
     content: |
       deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main
-  owner: root
-  group: root
   mode: '0644'
   become: true
 
