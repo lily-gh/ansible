@@ -1,9 +1,9 @@
 ---
 
 - name: Add Telegram PPA
-  ansible.builtin.apt_repository:
-    repo: ppa:atareao/telegram
-    state: present
+  ansible.builtin.shell: |
+    sudo add-apt-repository ppa:atareao/telegram
+  become: true
 
 - name: Install Microsoft Edge dependencies
   ansible.builtin.apt:
