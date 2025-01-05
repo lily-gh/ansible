@@ -17,7 +17,7 @@
 
 - name: Add Microsoft GPG key for Microsoft Edge
   ansible.builtin.shell: |
-    curl -fSsL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-edge.gpg
+    yes | curl -fSsL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-edge.gpg
   args:
     creates: /usr/share/keyrings/microsoft-edge.gpg
   become: true
@@ -25,9 +25,7 @@
 - name: Add Microsoft Edge repository
   ansible.builtin.copy:
     dest: /etc/apt/sources.list.d/microsoft-edge.list
-    content: |
-      deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main
-  mode: '0644'
+    content: deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main
   become: true
 
 - name: Update apt cache
@@ -41,10 +39,10 @@
     state: latest
   with_items:
     - docker.io
-    - telegram
     - code
     - vlc
     - 1password
+    - telegram
     - microsoft-edge-stable
   ignore_errors: yes
   become: true
