@@ -1,14 +1,52 @@
 ---
 
+- name: Add Telegram PPA
+  ansible.builtin.apt_repository:
+    repo: ppa:atareao/telegram
+    state: present
+
+- name: Install Microsoft Edge dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  with_items:
+    - software-properties-common
+    - apt-transport-https
+    - ca-certificates
+  ignore_errors: yes
+  become: true
+
+- name: Add Microsoft GPG key for Microsoft Edge
+  ansible.builtin.shell: |
+    curl -fSsL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-edge.gpg
+  args:
+    creates: /usr/share/keyrings/microsoft-edge.gpg
+  become: true
+
+- name: Add Microsoft Edge repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/microsoft-edge.list
+    content: |
+      deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main
+  owner: root
+  group: root
+  mode: '0644'
+  become: true
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+
 - name: Install apps
   ansible.builtin.apt:
     name: "{{ item }}"
     state: latest
   with_items:
     - docker.io
-    - telegram-desktop
+    - telegram
     - code
     - vlc
+    - 1password
     - microsoft-edge-stable
   ignore_errors: yes
   become: true
