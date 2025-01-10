@@ -19,7 +19,7 @@
   ansible.builtin.shell: |
     yes | curl -fSsL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
   args:
-    creates: /usr/share/keyrings/microsoft-edge.gpg
+    creates: /usr/share/keyrings/microsoft.gpg
   become: true
 
 - name: Add Microsoft Edge repository
