@@ -18,5 +18,8 @@
 - import_playbook: tasks/nerdfonts.yml
 - import_playbook: tasks/asdf.yml
 - import_playbook: tasks/install-python.yml
+
+- import_playbook: tasks/install-apps.yml
+
 #- import_playbook: tasks/setup-ssh.yml
 #- import_playbook: tasks/clone-lilydevtools.yml 
