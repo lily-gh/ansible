@@ -10,7 +10,7 @@
         msg: "Home directory is {{ ansible_env.HOME }}"
       
 
-- import_playbook: tasks/install-apps.yml
+- import_playbook: tasks/neovim.yml
 #- import_playbook: tasks/dotfiles.yml
 #- import_playbook: tasks/zoxide.yml
 #- name: Import macOS specific playbook
