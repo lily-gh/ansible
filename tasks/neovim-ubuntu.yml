@@ -1,0 +1,16 @@
+---
+
+- name: Install Neovim on Ubuntu
+  ansible.builtin.shell: |
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    sudo rm -rf /opt/nvim
+    sudo tar -C /opt -xzf nvim-linux64.tar.gz
+  args:
+    creates: /opt/n
+  become: true
+
+- name: Export /opt/nvim-linux64/bin on ~/.zshrc
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: 'export PATH="$PATH:/opt/nvim-linux64/bin"'
+    create: yes

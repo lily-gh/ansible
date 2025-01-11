@@ -1,7 +1,7 @@
 ---
 - name: Main Playbook
   hosts: localhost
-  gather_facts: true  # Ensure platform facts are gathered
+  gather_facts: true
 
   tasks:
     - name: Include macOS tasks
