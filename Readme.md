@@ -45,4 +45,4 @@ ansible-playbook main.yml --ask-become-pass --ask-vault-pass
 
 
 ## TODO
-  - asdf for java?
+  - neovim

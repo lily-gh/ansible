@@ -47,7 +47,6 @@
     - docker.io
     - code
     - vlc
-    - 1password
     - telegram
     - microsoft-edge-stable
   ignore_errors: yes
