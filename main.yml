@@ -14,10 +14,10 @@
 
 - import_playbook: tasks/ohmyzsh.yml
 - import_playbook: tasks/dotfiles.yml
-- import_playbook: tasks/zoxide.yml
+#- import_playbook: tasks/zoxide.yml
 - import_playbook: tasks/nerdfonts.yml
-- import_playbook: tasks/asdf.yml
-- import_playbook: tasks/install-python.yml
+#- import_playbook: tasks/asdf.yml
+#- import_playbook: tasks/install-python.yml
 
 - import_playbook: tasks/install-apps.yml
 - import_playbook: tasks/neovim.yml
