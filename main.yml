@@ -13,7 +13,6 @@
       when: ansible_facts['os_family'] == 'Debian'
 
     - name: Use zsh as the shell from now on
-      hosts: all
       become: yes
       vars:
         ansible_shell_executable: /bin/zsh
