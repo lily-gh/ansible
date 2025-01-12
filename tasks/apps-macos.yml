@@ -8,6 +8,7 @@
   ansible.builtin.homebrew:
     name: "{{ item }}"
     path: /opt/homebrew/bin
+    state: present
   ignore_errors: yes
   with_items:
     - 1password
