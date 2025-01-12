@@ -5,7 +5,7 @@
     msg: "ansible_env.PATH? {{ ansible_env.PATH }}"
 
 - name: Install apps
-  ansible.builtin.homebrew:
+  community.general.homebrew_cask:
     name: "{{ item }}"
     path: /opt/homebrew/bin
     state: present
