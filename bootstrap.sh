@@ -26,7 +26,9 @@ if [ "$OS" == "Darwin" ]; then
   USER_BASE=$(python3 -m site --user-base)
   ANSIBLE_PATH=$(find "$USER_BASE/lib" -type d -path "*/site-packages/ansible" 2>/dev/null)
 
-  if [ -n "$ANSIBLE_PATH" ]; then
+  if which ansible > /dev/null 2>&1; then
+    echo "Ansible is already installed at: $(which ansible)"
+  elif [ -n "$ANSIBLE_PATH" ]; then
     echo "Ansible is already installed at: $ANSIBLE_PATH"
   else
     echo "Installing Ansible using pip..."

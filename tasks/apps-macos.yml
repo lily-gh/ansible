@@ -1,5 +1,13 @@
 ---
 
+- name: Check if Homebrew is installed
+  ansible.builtin.command: which brew
+  register: homebrew_check
+
+- name: Debug homebrew check
+  ansible.builtin.debug:
+    msg: "Homebrew available? {{ homebrew_check }}"
+
 - name: Install apps
   ansible.builtin.homebrew:
     name: "{{ item }}"
