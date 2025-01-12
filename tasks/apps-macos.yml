@@ -1,7 +1,7 @@
 ---
 
-- name: Check if Homebrew is installed
-  ansible.builtin.command: which brew
+- name: Check Homebrew bin folder
+  ansible.builtin.command: ls /opt/homebrew/bin/
   register: homebrew_check
   failed_when: false
   changed_when: false
@@ -10,13 +10,6 @@
   ansible.builtin.debug:
     msg: "Homebrew available? {{ homebrew_check }}"
 
-- name: Ensure Homebrew bin is in PATH
-  ansible.builtin.lineinfile:
-    path: /etc/paths
-    state: present
-    line: '/opt/homebrew/bin'
-  become: true
-  
 - name: Install apps
   ansible.builtin.homebrew:
     name: "{{ item }}"
@@ -30,3 +23,5 @@
     - vlc
     - microsoft-edge
     - slack
+  environment:
+        PATH: "{{ ansible_env.PATH }}:/opt/homebrew/bin"
