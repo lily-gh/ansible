@@ -24,4 +24,4 @@
     name: docker
     state: present
     register: result
-  ignore_errors: result.msg.startswith('Error: It seems there is already an App at')
+  ignore_errors: result.msg.startswith("Error: It seems there is already an App at")
