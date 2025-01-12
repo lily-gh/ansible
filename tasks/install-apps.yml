@@ -2,6 +2,8 @@
 - name: Install Apps
   hosts: localhost
   gather_facts: true
+  vars:
+    ansible_shell_executable: /bin/zsh
 
   tasks:
     - name: Include macOS apps
