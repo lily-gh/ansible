@@ -7,6 +7,7 @@
 - name: Install apps
   ansible.builtin.homebrew:
     name: "{{ item }}"
+    path: /opt/homebrew/bin
   ignore_errors: yes
   with_items:
     - 1password
