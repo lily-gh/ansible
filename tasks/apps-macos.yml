@@ -1,14 +1,8 @@
 ---
 
-- name: Check Homebrew bin folder
-  ansible.builtin.command: ls /opt/homebrew/bin/
-  register: homebrew_check
-  failed_when: false
-  changed_when: false
-
-- name: Debug homebrew check
+- name: Debug ansible path
   ansible.builtin.debug:
-    msg: "Homebrew available? {{ homebrew_check }}"
+    msg: "ansible_env.PATH? {{ ansible_env.PATH }}"
 
 - name: Install apps
   ansible.builtin.homebrew:
@@ -23,5 +17,3 @@
     - vlc
     - microsoft-edge
     - slack
-  environment:
-        PATH: "{{ ansible_env.PATH }}:/opt/homebrew/bin"
