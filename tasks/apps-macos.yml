@@ -12,10 +12,16 @@
   ignore_errors: yes
   with_items:
     - 1password
-    - docker
     - iterm2
     - telegram
     - visual-studio-code
     - vlc
     - microsoft-edge
     - slack
+
+- name: Install Docker
+  community.general.homebrew_cask:
+    name: docker
+    state: present
+    register: result
+  ignore_errors: result.msg.startswith('Error: It seems there is already an App at')
