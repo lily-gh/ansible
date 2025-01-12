@@ -2,9 +2,7 @@
 - name: Install Apps
   hosts: localhost
   gather_facts: true
-  environment:
-    PATH: /opt/homebrew/bin:{{ ansible_env.PATH }}
-
+  
   tasks:
     - name: Include macOS apps
       include_tasks: apps-macos.yml
