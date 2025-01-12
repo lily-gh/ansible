@@ -10,6 +10,13 @@
   ansible.builtin.debug:
     msg: "Homebrew available? {{ homebrew_check }}"
 
+- name: Ensure Homebrew bin is in PATH
+  ansible.builtin.lineinfile:
+    path: /etc/paths
+    state: present
+    line: '/opt/homebrew/bin'
+  become: true
+  
 - name: Install apps
   ansible.builtin.homebrew:
     name: "{{ item }}"

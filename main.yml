@@ -12,11 +12,6 @@
       include_tasks: tasks/ubuntu-packages.yml
       when: ansible_facts['os_family'] == 'Debian'
 
-    - name: Use zsh as the shell from now on
-      become: yes
-      vars:
-        ansible_shell_executable: /bin/zsh
-
 - import_playbook: tasks/ohmyzsh.yml
 - import_playbook: tasks/dotfiles.yml
 - import_playbook: tasks/zoxide.yml
