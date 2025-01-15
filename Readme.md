@@ -18,31 +18,28 @@ Running the main playbook will install the following packages:
   
 
 ### How to use
-First, install ansible:
+Clone or download this repository, go to the root folder of this repository and run:
 
-On Ubuntu:
 ```sh
-sudo apt-get install ansible
+./bootstrap.sh
 ```
 
-On MacOS:
-```sh
-pip install ansible
-```
-
-Then execute the main ansible playbook:
-_(you'll need to provide the sudo password and ansible vault password)_
+This will check if ansible is installed, install it if it's not yet installed, and run the main playbook with:
 ```sh
 ansible-playbook main.yml --ask-become-pass
 ```
-```sh
-ansible-playbook main.yml --ask-become-pass --ask-vault-pass
+**NOTE:** you'll need to provide the sudo password and ansible vault password to decrypt my personal secrets. To avoid having to provide my personal secret key _(which you don't have)_, make sure to edit the file `bootstrap.sh` and remove the argument `--ask-vault-pass` and remove the following lines from `main.yml`:
+
+```yml
+- import_playbook: tasks/setup-ssh.yml
+- import_playbook: tasks/clone-lilydevtools.yml 
 ```
 
 
 ## Quality Certificate
-<img src="https://github.com/lily-gh/devtools/blob/img/img/works_on_my_machine.png" width="350" alt="Works on my machine" /> ![Kitty](https://github.com/lily-gh/devtools/blob/img/img/kitty_paws.gif)
+<img src="https://github.com/lily-gh/lily-gh/blob/main/img/works_on_my_machine.png" width="350" alt="Works on my machine" /> ![Kitty](https://github.com/lily-gh/lily-gh/blob/main/img/kitty_paws.gif)
 
 
 ## TODO
-  - neovim
+ - more apps
+ - support arch
