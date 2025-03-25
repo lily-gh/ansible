@@ -5,10 +5,17 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   git
   zsh-autosuggestions
-  zsh-syntax-highlighting
   colored-man-pages
   encode64
 )
+
+export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 source $ZSH/oh-my-zsh.sh
 
@@ -19,9 +26,7 @@ fi
 # To customize prompt, run 'p10k configure' or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export BAT_CONFIG_PATH=~/.bat.conf
-
-[ -f ~/.fzf.zsh ] 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # checks if eza command is available before setting the aliases
 if [ -x "$(command -v eza)" ]; then
@@ -34,7 +39,3 @@ if [ -x "$(command -v eza)" ]; then
     alias t="eza --tree --header --icons --git-ignore --group-directories-first"
 fi
 
-# binds ctrl+l to list folder contents
-function list-folder() { printf "\n"; eza -1 --long --header --icons --group-directories-first; zle redisplay; }
-zle -N list-folder
-bindkey "^L" list-folder
