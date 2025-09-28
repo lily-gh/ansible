@@ -4,12 +4,6 @@
   gather_facts: true
 
   tasks:
-    - name: Install asdf on macOS
-      homebrew:
-        name: asdf
-        state: present
-      when: ansible_os_family == "Darwin"
-
     - name: Install asdf on Ubuntu
       debug:
         msg: "TODO: Install asdf on Ubuntu"
