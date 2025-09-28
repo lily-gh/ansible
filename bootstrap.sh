@@ -26,6 +26,13 @@ if [ "$OS" == "Darwin" ]; then
   USER_BASE=$(python3 -m site --user-base)
   ANSIBLE_PATH=$(find "$USER_BASE/lib" -type d -path "*/site-packages/ansible" 2>/dev/null)
 
+  # Get the built-in Python base path
+  PYTHON_BASEPATH=$(python3 -m site --user-base)
+
+  # Add the base bin directory of preinstalled Python to PATH
+  export PATH="$PATH:$PYTHON_BASEPATH/bin"
+
+
   if which ansible > /dev/null 2>&1; then
     echo "Ansible is already installed at: $(which ansible)"
   elif [ -n "$ANSIBLE_PATH" ]; then
@@ -35,11 +42,6 @@ if [ "$OS" == "Darwin" ]; then
     python3 -m pip install --user ansible --ignore-installed
   fi
 
-  # Get the Python base path
-  PYTHON_BASEPATH=$(python3 -m site --user-base)
-
-  # Add the base bin directory of preinstalled Python to PATH
-  export PATH="$PATH:$PYTHON_BASEPATH/bin"
 
   # ensure homebrew is installed
   ansible-galaxy install -r requirements.yml
