@@ -5,6 +5,7 @@
     name: "{{ item }}"
     path: /opt/homebrew/bin
     state: present
+  become: true
   ignore_errors: yes
   with_items:
     - 1password

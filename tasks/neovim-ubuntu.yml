@@ -8,10 +8,10 @@
 
 - name: Install Neovim
   ansible.builtin.shell: |
-    sudo rm -rf /opt/nvim
-    sudo tar -C /opt -xzf "{{ ansible_env.HOME }}/Downloads/nvim-linux64.tar.gz"
+    rm -rf /opt/nvim
+    tar -C /opt -xzf "{{ ansible_env.HOME }}/Downloads/nvim-linux64.tar.gz"
   args:
-    creates: /opt/n
+    creates: /opt/nvim-linux64
   become: true
 
 - name: Export /opt/nvim-linux64/bin on ~/.zshrc
