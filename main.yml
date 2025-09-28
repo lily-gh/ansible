@@ -22,5 +22,7 @@
 - import_playbook: tasks/install-apps.yml
 - import_playbook: tasks/neovim.yml
 
-#- import_playbook: tasks/setup-ssh.yml
-#- import_playbook: tasks/clone-lilydevtools.yml 
+
+# Lily-specific stuff 💖
+# - import_playbook: tasks/setup-ssh.yml
+# - import_playbook: tasks/clone-lilydevtools.yml 
