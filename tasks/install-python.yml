@@ -38,6 +38,7 @@
       when: conda_env_check.rc != 0
       environment:
         PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/miniconda/bin"
+        CONDA_PLUGINS_AUTO_ACCEPT_TOS: "true"
       
     - name: Append conda activate to ~/.zshrc
       ansible.builtin.lineinfile:
