@@ -1,7 +1,7 @@
 ---
 - name: Setup lilydevtools repository
   hosts: localhost  # Defines the target as the local machine
-  gather_facts: false  # Disable facts gathering for faster execution since it's not needed
+  gather_facts: false
 
   tasks:
     - name: Ensure ~/projects directory exists

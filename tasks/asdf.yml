@@ -1,40 +1,45 @@
 ---
 - name: Install asdf
   hosts: localhost
-  gather_facts: true  # Ensure platform facts are gathered
+  gather_facts: true
 
   tasks:
-    - name: Check if ~/.asdf directory exists
-      ansible.builtin.stat:
-        path: "{{ ansible_env.HOME }}/.asdf"
-      register: asdf_dir
+    - name: Install asdf on macOS
+      homebrew:
+        name: asdf
+        state: present
+      when: ansible_os_family == "Darwin"
 
-    - name: Clone asdf repository
-      ansible.builtin.git:
-        repo: https://github.com/asdf-vm/asdf.git
-        dest: "{{ ansible_env.HOME }}/.asdf"
-      when: not asdf_dir.stat.exists
+    - name: Install asdf on Ubuntu
+      debug:
+        msg: "TODO: Install asdf on Ubuntu"
+      when: ansible_os_family == "Debian"
 
-    - name: Initialize asdf in ~/.zshrc
+    - name: Install asdf on Arch
+      ansible.builtin.shell: |
+        git clone https://aur.archlinux.org/asdf-vm.git /tmp/asdf-vm
+        cd /tmp/asdf-vm
+        makepkg -si --noconfirm
+      args:
+        creates: /usr/bin/asdf
+      when: ansible_os_family == "Archlinux"
+
+    - name: Add asdf shims to PATH in ~/.zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        line: '. "$HOME/.asdf/asdf.sh"'
+        line: 'export PATH="$ASDF_DATA_DIR/shims:$PATH"'
         create: yes
       when: 
         - ansible_env.HOME is defined
-        - "'.asdf' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
+        - "'ASDF_DATA_DIR/shims' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
     - name: Add Node.js plugin
-      ansible.builtin.shell: asdf plugin-add nodejs
-      environment:
-        PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.HOME }}/.asdf"
+      ansible.builtin.shell: asdf plugin add nodejs
 
     - name: Install Node.js latest version
-      ansible.builtin.shell: |
-        . "$HOME/.asdf/asdf.sh"
-        $HOME/.asdf/bin/asdf install nodejs latest
+      ansible.builtin.shell: asdf install nodejs latest
       args:
         executable: /bin/zsh
 
     - name: Set global Node.js version
-      ansible.builtin.shell: zsh -l -c "$HOME/.asdf/bin/asdf global nodejs latest"
+      ansible.builtin.shell: zsh -l -c "asdf set nodejs latest"
