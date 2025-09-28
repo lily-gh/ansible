@@ -41,7 +41,7 @@ if [ "$OS" == "Darwin" ]; then
   # Add the base bin directory of preinstalled Python to PATH
   export PATH="$PATH:$PYTHON_BASEPATH/bin"
 
-  # assures homebrew is installed
+  # ensure homebrew is installed
   ansible-galaxy install -r requirements.yml
 else
   # Linux/Ubuntu specific tasks

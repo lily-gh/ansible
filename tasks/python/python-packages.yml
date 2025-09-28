@@ -6,6 +6,7 @@
     - pyperclip
     - beautifulsoup4
     - requests
+    - pyyaml
   register: packages_check
   ignore_errors: yes
   failed_when: false

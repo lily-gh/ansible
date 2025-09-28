@@ -18,17 +18,17 @@ Running the main playbook will install the following packages:
   
 
 ### How to use
-Clone or download this repository, go to the root folder of this repository and run:
+Clone or download this repository, go to the root folder of the repository and run:
 
 ```sh
 ./bootstrap.sh
 ```
 
-This will check if ansible is installed, install it if it's not yet installed, and run the main playbook with:
+This will check if ansible is installed, install it if it's not yet installed, and automatically run the main playbook with:
 ```sh
 ansible-playbook main.yml --ask-become-pass
 ```
-**NOTE:** you'll need to provide the sudo password and ansible vault password to decrypt my personal secrets. To avoid having to provide my personal secret key _(which you don't have)_, make sure to edit the file `bootstrap.sh` and remove the argument `--ask-vault-pass` and remove the following lines from `main.yml`:
+**NOTE:** you'll need to provide the sudo password and ansible vault password to decrypt secrets. To avoid having to provide my personal secret key _(which you don't have)_, make sure to edit the file `bootstrap.sh` and remove the argument `--ask-vault-pass` and remove the following lines from `main.yml`:
 
 ```yml
 - import_playbook: tasks/setup-ssh.yml
@@ -41,5 +41,4 @@ ansible-playbook main.yml --ask-become-pass
 
 
 ## TODO
- - more apps
  - support arch
