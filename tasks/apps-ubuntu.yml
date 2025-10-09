@@ -44,7 +44,6 @@
     name: "{{ item }}"
     state: latest
   with_items:
-    - docker.io
     - code
     - vlc
     - telegram
