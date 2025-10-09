@@ -3,13 +3,35 @@
   hosts: localhost
 
   tasks:
-    - name: Copy dotfiles
+    - name: Check if .zshrc has been deployed before
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        line: "# Deployed by Ansible - DO NOT REMOVE THIS LINE"
+        state: present
+      check_mode: yes
+      register: zshrc_marker_check
+      failed_when: false
+
+    - name: Copy .zshrc (first time only)
+      ansible.builtin.copy:
+        src: "dotfiles/.zshrc"
+        dest: "{{ ansible_env.HOME }}/.zshrc"
+        mode: '0644'
+      when: zshrc_marker_check.changed
+
+    - name: Add deployment marker to .zshrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        line: "# Deployed by Ansible - DO NOT REMOVE THIS LINE"
+        state: present
+      when: zshrc_marker_check.changed
+
+    - name: Copy other dotfiles
       ansible.builtin.copy:
         src: "dotfiles/{{ item }}"
         dest: "{{ ansible_env.HOME }}/{{ item }}"
         mode: '0644'
       with_items:
-        # - .zshrc
         - .p10k.zsh
         - .bat.conf
         - .ideavimrc
