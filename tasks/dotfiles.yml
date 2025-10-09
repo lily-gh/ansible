@@ -9,7 +9,7 @@
         dest: "{{ ansible_env.HOME }}/{{ item }}"
         mode: '0644'
       with_items:
-        - .zshrc
+        # - .zshrc
         - .p10k.zsh
         - .bat.conf
         - .ideavimrc

@@ -9,6 +9,16 @@
         msg: "TODO: Install asdf on Ubuntu"
       when: ansible_os_family == "Debian"
 
+    - name: Set asdf binary path for macOS
+      ansible.builtin.set_fact:
+        asdf_path: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+      when: ansible_os_family == "Darwin"
+
+    - name: Set asdf binary path for non-macOS systems
+      ansible.builtin.set_fact:
+        asdf_path: "{{ ansible_env.PATH }}"
+      when: ansible_os_family != "Darwin"
+
     - name: Install asdf on Arch
       ansible.builtin.shell: |
         git clone https://aur.archlinux.org/asdf-vm.git /tmp/asdf-vm
@@ -29,11 +39,17 @@
 
     - name: Add Node.js plugin
       ansible.builtin.shell: asdf plugin add nodejs
+      environment:
+        PATH: "{{ asdf_path }}"
 
     - name: Install Node.js latest version
       ansible.builtin.shell: asdf install nodejs latest
       args:
         executable: /bin/zsh
+      environment:
+        PATH: "{{ asdf_path }}"
 
     - name: Set global Node.js version
       ansible.builtin.shell: zsh -l -c "asdf set nodejs latest"
+      environment:
+        PATH: "{{ asdf_path }}"
