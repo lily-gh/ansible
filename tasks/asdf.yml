@@ -4,9 +4,8 @@
   gather_facts: true
 
   tasks:
-    - name: Install asdf on Ubuntu
-      debug:
-        msg: "TODO: Install asdf on Ubuntu"
+    - name: Include Ubuntu-specific asdf tasks
+      ansible.builtin.include_tasks: asdf-ubuntu.yml
       when: ansible_os_family == "Debian"
 
     - name: Set asdf binary path for macOS
@@ -14,10 +13,15 @@
         asdf_path: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
       when: ansible_os_family == "Darwin"
 
-    - name: Set asdf binary path for non-macOS systems
+    - name: Set asdf binary path for Ubuntu
       ansible.builtin.set_fact:
         asdf_path: "{{ ansible_env.PATH }}"
-      when: ansible_os_family != "Darwin"
+      when: ansible_os_family == "Debian"
+
+    - name: Set asdf binary path for unknown platform
+      ansible.builtin.set_fact:
+        asdf_path: "{{ ansible_env.PATH }}"
+      when: ansible_os_family != "Debian" and ansible_os_family != "Darwin" and ansible_os_family != "Archlinux"
 
     - name: Install asdf on Arch
       ansible.builtin.shell: |
@@ -31,11 +35,12 @@
     - name: Add asdf shims to PATH in ~/.zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        line: 'export PATH="$ASDF_DATA_DIR/shims:$PATH"'
+        line: 'export PATH="$HOME/.asdf/shims:$PATH"'
         create: yes
       when: 
         - ansible_env.HOME is defined
-        - "'ASDF_DATA_DIR/shims' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
+        - ansible_os_family != "Debian"
+        - "'/.asdf/shims' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
     - name: Add Node.js plugin
       ansible.builtin.shell: asdf plugin add nodejs
