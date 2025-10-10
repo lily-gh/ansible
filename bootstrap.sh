@@ -59,5 +59,5 @@ else
 fi
 
 # Run the playbook
-ansible-playbook main.yml --ask-become-pass --ask-vault-pass 
-# ansible-playbook main.yml --ask-become-pass
+# ansible-playbook main.yml --ask-become-pass --ask-vault-pass 
+ansible-playbook main.yml --ask-become-pass
