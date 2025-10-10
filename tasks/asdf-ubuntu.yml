@@ -1,0 +1,40 @@
+---
+- name: Create asdf directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.asdf"
+    state: directory
+    mode: '0755'
+
+- name: Download asdf for Ubuntu (amd64)
+  ansible.builtin.get_url:
+    url: "https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-linux-amd64.tar.gz"
+    dest: "/tmp/asdf-v0.18.0-linux-amd64.tar.gz"
+    mode: '0644'
+
+- name: Extract asdf archive
+  ansible.builtin.unarchive:
+    src: "/tmp/asdf-v0.18.0-linux-amd64.tar.gz"
+    dest: "{{ ansible_env.HOME }}/.asdf"
+    remote_src: yes
+    extra_opts: "--strip-components=1"
+
+- name: Add asdf to PATH in ~/.zshrc for Ubuntu
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: '. "$HOME/.asdf/asdf.sh"'
+    create: yes
+
+- name: Add asdf completions to ~/.zshrc for Ubuntu
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: '. "$HOME/.asdf/completions/asdf.bash"'
+    create: yes
+
+- name: Clean up downloaded archive
+  ansible.builtin.file:
+    path: "/tmp/asdf-v0.18.0-linux-amd64.tar.gz"
+    state: absent
+
+- name: Set asdf binary path for Ubuntu
+  ansible.builtin.set_fact:
+    asdf_path: "{{ ansible_env.HOME }}/.asdf/bin:{{ ansible_env.PATH }}"
