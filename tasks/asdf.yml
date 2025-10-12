@@ -59,6 +59,6 @@
         PATH: "{{ asdf_path }}"
 
     - name: Set global Node.js version
-      ansible.builtin.shell: asdf global nodejs {{ nodejs_latest_version.stdout }}
+      ansible.builtin.shell: asdf set nodejs {{ nodejs_latest_version.stdout }}
       environment:
         PATH: "{{ asdf_path }}"
