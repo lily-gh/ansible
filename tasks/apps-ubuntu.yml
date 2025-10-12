@@ -47,6 +47,7 @@
     - code
     - vlc
     - telegram
+    - neovim
   ignore_errors: yes
   become: true
 

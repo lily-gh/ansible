@@ -1,21 +1,21 @@
 ---
 
-- name: Ensure ~/.local/bin directory exists
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin"
-    state: directory
-    mode: '0755'
+#- name: Ensure ~/.local/bin directory exists
+#  ansible.builtin.file:
+#    path: "{{ ansible_env.HOME }}/.local/bin"
+#    state: directory
+#    mode: '0755'
 
-- name: Download Neovim AppImage
-  ansible.builtin.get_url:
-    url: https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-arm64.appimage
-    dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
-    mode: '0755'
+#- name: Download Neovim AppImage
+#  ansible.builtin.get_url:
+#    url: https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-arm64.appimage
+#    dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
+#    mode: '0755'
 
-- name: Verify Neovim AppImage is executable
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/nvim"
-    mode: '0755'
+#- name: Verify Neovim AppImage is executable
+#  ansible.builtin.file:
+#    path: "{{ ansible_env.HOME }}/.local/bin/nvim"
+#    mode: '0755'
 
 - name: Test Neovim installation
   ansible.builtin.shell: |
