@@ -22,16 +22,6 @@
     path: "{{ ansible_env.HOME }}/Downloads/vscode.deb"
     state: absent
 
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: yes
-  become: true
-
-- name: Configure any pending dpkg packages
-  ansible.builtin.shell: dpkg --configure -a
-  become: true
-  ignore_errors: yes
-
 - name: Add 1Password GPG key
   ansible.builtin.shell: |
     curl -s https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
@@ -45,6 +35,15 @@
     content: "deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main"
   become: true
 
+- name: Configure any pending dpkg packages
+  ansible.builtin.shell: dpkg --configure -a
+  become: true
+  ignore_errors: yes
+  
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
 
 - name: Install apps
   ansible.builtin.apt:
