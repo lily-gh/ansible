@@ -5,29 +5,6 @@
     add-apt-repository ppa:atareao/telegram -y
   become: true
 
-- name: Install Microsoft Edge dependencies
-  ansible.builtin.apt:
-    name: "{{ item }}"
-  with_items:
-    - software-properties-common
-    - apt-transport-https
-    - ca-certificates
-  ignore_errors: yes
-  become: true
-
-- name: Add Microsoft GPG key for Microsoft Edge
-  ansible.builtin.shell: |
-    yes | curl -fSsL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
-  args:
-    creates: /usr/share/keyrings/microsoft.gpg
-  become: true
-
-- name: Add Microsoft Edge repository
-  ansible.builtin.copy:
-    dest: /etc/apt/sources.list.d/microsoft-edge.list
-    content: deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main
-  become: true
-
 - name: Add VS Code repository
   ansible.builtin.copy:
     dest: /etc/apt/sources.list.d/vs-code.list
@@ -47,16 +24,37 @@
     - code
     - vlc
     - telegram
-    - microsoft-edge-stable
   ignore_errors: yes
   become: true
 
-- name: Download and install 1Password
+- name: Configure any pending dpkg packages
+  ansible.builtin.shell: dpkg --configure -a
+  become: true
+  ignore_errors: yes
+
+- name: Add 1Password GPG key
   ansible.builtin.shell: |
     curl -s https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
-    echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | tee /etc/apt/sources.list.d/1password.list
-    apt update
-    apt install -y 1password
   args:
-    creates: /usr/bin/1password
+    creates: /usr/share/keyrings/1password-archive-keyring.gpg
   become: true
+
+- name: Add 1Password repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/1password.list
+    content: "deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main"
+  become: true
+
+- name: Update apt cache for 1Password
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+
+- name: Install 1Password
+  ansible.builtin.apt:
+    name: 1password
+    state: present
+    install_recommends: no
+  become: true
+  environment:
+    DEBIAN_FRONTEND: noninteractive
