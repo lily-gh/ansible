@@ -38,8 +38,6 @@
         line: 'export PATH="$HOME/.asdf/shims:$PATH"'
         create: yes
       when: 
-        - ansible_env.HOME is defined
-        - ansible_os_family != "Debian"
         - "'/.asdf/shims' not in lookup('file', ansible_env.HOME + '/.zshrc', errors='ignore')"
 
     - name: Add Node.js plugin
