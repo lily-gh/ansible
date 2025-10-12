@@ -52,7 +52,13 @@
       environment:
         PATH: "{{ asdf_path }}"
 
+    - name: Get latest installed Node.js version
+      ansible.builtin.shell: asdf list nodejs | grep -v "No versions" | tail -1 | tr -d ' '
+      register: nodejs_latest_version
+      environment:
+        PATH: "{{ asdf_path }}"
+
     - name: Set global Node.js version
-      ansible.builtin.shell: zsh -l -c "asdf set nodejs latest"
+      ansible.builtin.shell: asdf global nodejs {{ nodejs_latest_version.stdout }}
       environment:
         PATH: "{{ asdf_path }}"
