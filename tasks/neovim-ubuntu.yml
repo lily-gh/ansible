@@ -8,7 +8,7 @@
 
 - name: Download Neovim AppImage
   ansible.builtin.get_url:
-    url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    url: https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-arm64.appimage
     dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
     mode: '0755'
 
@@ -16,3 +16,14 @@
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.local/bin/nvim"
     mode: '0755'
+
+- name: Test Neovim installation
+  ansible.builtin.shell: |
+    export PATH="$HOME/.local/bin:$PATH"
+    nvim --version
+  register: nvim_version
+  changed_when: false
+
+- name: Display Neovim version
+  ansible.builtin.debug:
+    msg: "Neovim installed successfully: {{ nvim_version.stdout_lines[0] }}"
