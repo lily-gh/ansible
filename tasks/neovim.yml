@@ -9,8 +9,10 @@
         name: neovim
       when: ansible_facts['os_family'] == 'Darwin'
 
-    - name: Include Ubuntu Neovim tasks
-      include_tasks: neovim-ubuntu.yml
+    - name: Install Neovim on Ubuntu
+      ansible.builtin.apt:
+        name: neovim
+        state: latest
       when: ansible_facts['os_family'] == 'Debian'
 
     - name: Ensure ~/.config/nvim directory exists
