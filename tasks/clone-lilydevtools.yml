@@ -17,3 +17,9 @@
         version: main
         key_file: ~/.ssh/id_lily
         update: yes
+
+    - name: Execute lilydevtools setup script
+      ansible.builtin.shell:
+        cmd: ~/projects/lilydevtools/setup.sh
+        executable: /bin/bash
+      when: lookup('file', '~/projects/lilydevtools/setup.sh', errors='ignore') | length > 0
