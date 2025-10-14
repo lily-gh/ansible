@@ -42,7 +42,6 @@ if [ "$OS" == "Darwin" ]; then
     python3 -m pip install --user ansible --ignore-installed
   fi
 
-
   # ensure homebrew is installed
   ansible-galaxy install -r requirements.yml
 else
@@ -59,5 +58,5 @@ else
 fi
 
 # Run the playbook
-# ansible-playbook main.yml --ask-become-pass --ask-vault-pass 
-ansible-playbook main.yml --ask-become-pass
+ansible-playbook main.yml --ask-become-pass --ask-vault-pass 
+#ansible-playbook main.yml --ask-become-pass
