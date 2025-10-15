@@ -8,6 +8,15 @@
       ansible.builtin.include_tasks: asdf-ubuntu.yml
       when: ansible_os_family == "Debian"
 
+    - name: Install asdf on Arch
+      ansible.builtin.shell: |
+        git clone https://aur.archlinux.org/asdf-vm.git /tmp/asdf-vm
+        cd /tmp/asdf-vm
+        makepkg -si --noconfirm
+      args:
+        creates: /usr/bin/asdf
+      when: ansible_os_family == "Archlinux"
+
     - name: Set asdf binary path for macOS
       ansible.builtin.set_fact:
         asdf_path: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
@@ -23,14 +32,6 @@
         asdf_path: "{{ ansible_env.PATH }}"
       when: ansible_os_family != "Debian" and ansible_os_family != "Darwin" and ansible_os_family != "Archlinux"
 
-    - name: Install asdf on Arch
-      ansible.builtin.shell: |
-        git clone https://aur.archlinux.org/asdf-vm.git /tmp/asdf-vm
-        cd /tmp/asdf-vm
-        makepkg -si --noconfirm
-      args:
-        creates: /usr/bin/asdf
-      when: ansible_os_family == "Archlinux"
 
     - name: Add asdf shims to PATH in ~/.zshrc
       ansible.builtin.lineinfile:
