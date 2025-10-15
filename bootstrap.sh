@@ -45,14 +45,28 @@ if [ "$OS" == "Darwin" ]; then
   # ensure homebrew is installed
   ansible-galaxy install -r requirements.yml
 else
-  # Linux/Ubuntu specific tasks
-
-  # Check if Ansible is installed
-  if ! command -v ansible &>/dev/null; then
-    echo "Installing Ansible with apt..."
-    sudo apt update && sudo apt install -y ansible
-  else
-    echo "Ansible is already installed."
+  # Linux specific tasks - detect distribution
+  if [ -f /etc/arch-release ]; then
+    # Arch Linux specific tasks
+    
+    # Check if Ansible is installed
+    if ! command -v ansible &>/dev/null; then
+      echo "Installing Ansible with pacman..."
+      sudo pacman -Sy --noconfirm ansible
+    else
+      echo "Ansible is already installed."
+    fi
+  elif [ -f /etc/debian_version ] || [ -f /etc/ubuntu-release ]; then
+    # Ubuntu/Debian specific tasks
+    echo "Detected Ubuntu/Debian"
+    
+    # Check if Ansible is installed
+    if ! command -v ansible &>/dev/null; then
+      echo "Installing Ansible with apt..."
+      sudo apt update && sudo apt install -y ansible
+    else
+      echo "Ansible is already installed."
+    fi
   fi
 
 fi
