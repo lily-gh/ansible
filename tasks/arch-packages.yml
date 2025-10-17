@@ -1,0 +1,33 @@
+---
+
+- name: Check if 'eza' command is available
+  ansible.builtin.command: which eza
+  register: eza_check
+  failed_when: false
+
+- name: Include eza dependencies if 'eza' is not installed
+  include_tasks: eza-dependencies.yml
+  when: eza_check.rc != 0
+
+- name: Update pacman cache
+  community.general.pacman:
+    update_cache: yes
+  become: true
+
+- name: Install packages
+  community.general.pacman:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - curl
+    - unzip
+    - bat
+    - ffmpeg
+    - fzf
+    - git
+    - eza
+    - vim
+    - zsh
+    - xclip
+    - wget
+  become: true

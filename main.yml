@@ -11,6 +11,10 @@
     - name: Include Ubuntu tasks
       include_tasks: tasks/ubuntu-packages.yml
       when: ansible_facts['os_family'] == 'Debian'
+  
+    - name: Include Arch tasks
+      include_tasks: tasks/arch-packages.yml
+      when: ansible_facts['os_family'] == 'Archlinux'
 
 - import_playbook: tasks/ohmyzsh.yml
 - import_playbook: tasks/dotfiles.yml
