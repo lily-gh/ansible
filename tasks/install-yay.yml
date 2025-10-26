@@ -1,8 +1,10 @@
 ---
 - hosts: arch
   become: yes
-  roles:
-    - role: jpedrodelacerda.yay
+  tasks:
+    - name: Install yay AUR helper
+      include_role:
+        name: jpedrodelacerda.yay
       vars:
         homedir: "{{ ansible_env.HOME }}"
         srcdir: "{{ ansible_env.HOME }}/.src"
