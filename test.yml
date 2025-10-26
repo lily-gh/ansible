@@ -4,38 +4,8 @@
   gather_facts: true
 
   tasks:
-    - name: Debug home directory
-      ansible.builtin.debug:
-        msg: "Home directory is {{ ansible_env.HOME }}"
-
-    - name: Update System Packages and refresh repositories
-      ansible.builtin.shell: |
-        pacman -Syuu --noconfirm
-      become: true
-
-    - name: Remove existing yay directory
-      ansible.builtin.file:
-        path: /tmp/yay
-        state: absent
-
-    - name: Install yay AUR helper
-      ansible.builtin.shell: |
-        if ! command -v yay &> /dev/null; then
-          cd /tmp
-          git clone https://aur.archlinux.org/yay.git
-          cd yay
-          makepkg -si --noconfirm
-          rm -rf /tmp/yay
-        fi
-      register: yay_install_result
-
-    - name: Show yay installation stdout
-      ansible.builtin.debug:
-        var: yay_install_result.stdout
-
-    - name: Show yay installation stderr
-      ansible.builtin.debug:
-        var: yay_install_result.stderr
+    - name: Include yay tasks
+      include_tasks: tasks/install-yay.yml
       
 - import_playbook: tasks/asdf.yml
 #- import_playbook: tasks/dotfiles.yml

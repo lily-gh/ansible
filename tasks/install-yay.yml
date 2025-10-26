@@ -1,0 +1,64 @@
+---
+- name: Install yay AUR helper on Arch
+  hosts: localhost
+  gather_facts: true
+  vars:
+    aur_builder_user: "{{ ansible_user_id | default('builder') }}"
+    aur_build_dir: "/tmp/yay"
+
+  tasks:
+    - name: Ensure base-devel and git are installed (needed for building AUR packages)
+      become: true
+      ansible.builtin.pacman:
+        name:
+          - base-devel
+          - git
+        state: present
+
+    - name: Allow makepkg to install deps via sudo without password (temporary)
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/aur_builder
+        create: true
+        mode: '0440'
+        line: "{{ aur_builder_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman -S*, /usr/bin/pacman -U*"
+
+    - name: Ensure yay build directory is clean
+      ansible.builtin.file:
+        path: "{{ aur_build_dir }}"
+        state: absent
+      become: false
+
+    - name: Clone yay repository
+      ansible.builtin.git:
+        repo: "https://aur.archlinux.org/yay.git"
+        dest: "{{ aur_build_dir }}"
+        update: yes
+      become: false
+
+    - name: Build yay package as normal user
+      ansible.builtin.shell: |
+        cd {{ aur_build_dir }}
+        makepkg -si --noconfirm
+      become: false
+
+    - name: Cleanup yay build directory
+      ansible.builtin.file:
+        path: "{{ aur_build_dir }}"
+        state: absent
+      become: true
+
+    - name: Verify yay installation
+      ansible.builtin.command: yay --version
+      register: yay_version
+      changed_when: false
+
+    - name: Show yay version
+      ansible.builtin.debug:
+        var: yay_version.stdout
+
+    - name: Remove temporary sudoers rule
+      become: true
+      ansible.builtin.file:
+        path: /etc/sudoers.d/aur_builder
+        state: absent
