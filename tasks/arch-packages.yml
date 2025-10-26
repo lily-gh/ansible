@@ -29,14 +29,26 @@
     state: present
   become: true
 
-- name: Install yay AUR helper
-  ansible.builtin.shell: |
-    if ! command -v yay &> /dev/null; then
-      cd /tmp
-      git clone https://aur.archlinux.org/yay.git
-      cd yay
-      makepkg -si --noconfirm
-      rm -rf /tmp/yay
-    fi
-  register: yay_install_result
-  changed_when: yay_install_result.stdout is search('installing yay') or yay_install_result.rc == 0
+- name: Create the `aur_builder` user
+  become: yes
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: yes
+    group: wheel
+
+- name: Allow the `aur_builder` user to run `sudo pacman` without a password
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-install-aur_builder
+    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    create: yes
+    mode: 0644
+    validate: 'visudo -cf %s'
+
+- name: Install yay
+  kewlfft.aur.aur:
+    use: makepkg
+    name:
+      - yay
+  become: yes
+  become_user: aur_builder
