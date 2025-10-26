@@ -16,6 +16,7 @@
       args:
         creates: /usr/bin/asdf
       when: ansible_os_family == "Archlinux"
+      become: true
 
     - name: Set asdf binary path for macOS
       ansible.builtin.set_fact:
