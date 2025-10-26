@@ -10,6 +10,8 @@
 
     - name: Install asdf on Arch
       ansible.builtin.shell: yay -S --noconfirm asdf-vm
+      environment:
+        PATH: "/usr/local/bin:/usr/bin:{{ ansible_env.PATH }}"
       args:
         creates: /usr/bin/asdf
       when: ansible_os_family == "Archlinux"
