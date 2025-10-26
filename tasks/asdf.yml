@@ -30,7 +30,7 @@
     
     - name: Set asdf binary path for Arch
       ansible.builtin.set_fact:
-        asdf_path: "/usr/bin/asdf:{{ ansible_env.PATH }}"
+        asdf_path: ":{{ ansible_env.PATH }}"
       when: ansible_os_family == "Archlinux"
 
     - name: Set asdf binary path for unknown platform
@@ -66,6 +66,6 @@
         PATH: "{{ asdf_path }}"
 
     - name: Set global Node.js version
-      ansible.builtin.shell: asdf set nodejs {{ nodejs_latest_version.stdout }}
+      ansible.builtin.shell: asdf set nodejs {{ nodejs_latest_version.stdout }} --home
       environment:
         PATH: "{{ asdf_path }}"
