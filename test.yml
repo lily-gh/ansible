@@ -13,6 +13,11 @@
         pacman -Syuu --noconfirm
       become: true
 
+    - name: Remove existing yay directory
+      ansible.builtin.file:
+        path: /tmp/yay
+        state: absent
+
     - name: Install yay AUR helper
       ansible.builtin.shell: |
         if ! command -v yay &> /dev/null; then
