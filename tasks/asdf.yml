@@ -27,6 +27,11 @@
       ansible.builtin.set_fact:
         asdf_path: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
       when: ansible_os_family == "Debian"
+    
+    - name: Set asdf binary path for Arch
+      ansible.builtin.set_fact:
+        asdf_path: "/usr/bin/asdf:{{ ansible_env.PATH }}"
+      when: ansible_os_family == "Archlinux"
 
     - name: Set asdf binary path for unknown platform
       ansible.builtin.set_fact:
