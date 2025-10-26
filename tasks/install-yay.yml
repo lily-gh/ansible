@@ -1,10 +1,14 @@
 ---
 - hosts: arch
   become: yes
-  tasks:
-    - name: Install yay AUR helper
-      include_role:
-        name: jpedrodelacerda.yay
+  roles:
+    - role: geosword.ansible.archyay
       vars:
         homedir: "{{ ansible_env.HOME }}"
         srcdir: "{{ ansible_env.HOME }}/.src"
+
+  tasks:
+    - name: Install AUR package with yay
+      yay:
+        name: visual-studio-code-bin
+        state: present
