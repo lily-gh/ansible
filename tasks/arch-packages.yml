@@ -38,4 +38,5 @@
       makepkg -si --noconfirm
       rm -rf /tmp/yay
     fi
+  register: yay_install_result
   changed_when: yay_install_result.stdout is search('installing yay') or yay_install_result.rc == 0
