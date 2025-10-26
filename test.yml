@@ -13,7 +13,7 @@
       ansible.builtin.shell: |
         if ! command -v yay &> /dev/null; then
           cd /tmp
-          git clone https://aur.archlinux.org/yay.git --force
+          git clone https://aur.archlinux.org/yay.git
           cd yay
           makepkg -si --noconfirm
           rm -rf /tmp/yay
