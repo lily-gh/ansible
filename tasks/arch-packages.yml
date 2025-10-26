@@ -22,3 +22,21 @@
     - xclip
     - wget
   become: true
+
+- name: Install base-devel (required for AUR packages)
+  community.general.pacman:
+    name: base-devel
+    state: present
+  become: true
+
+- name: Install yay AUR helper
+  ansible.builtin.shell: |
+    if ! command -v yay &> /dev/null; then
+      cd /tmp
+      git clone https://aur.archlinux.org/yay.git
+      cd yay
+      makepkg -si --noconfirm
+      rm -rf /tmp/yay
+    fi
+  args:
+    creates: /usr/bin/yay

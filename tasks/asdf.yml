@@ -9,14 +9,10 @@
       when: ansible_os_family == "Debian"
 
     - name: Install asdf on Arch
-      ansible.builtin.shell: |
-        git clone https://aur.archlinux.org/asdf-vm.git /tmp/asdf-vm
-        cd /tmp/asdf-vm
-        makepkg -si --noconfirm
+      ansible.builtin.shell: yay -S --noconfirm asdf-vm
       args:
         creates: /usr/bin/asdf
       when: ansible_os_family == "Archlinux"
-      become: true
 
     - name: Set asdf binary path for macOS
       ansible.builtin.set_fact:
