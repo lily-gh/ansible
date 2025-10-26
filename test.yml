@@ -7,8 +7,21 @@
     - name: Debug home directory
       ansible.builtin.debug:
         var: ansible_env.HOME
+
+    - name: Install yay AUR helper interactively
+      ansible.builtin.shell: |
+        if ! command -v yay &> /dev/null; then
+          cd /tmp
+          git clone https://aur.archlinux.org/yay.git
+          cd yay
+          makepkg -si --noconfirm
+          rm -rf /tmp/yay
+        fi
+      args:
+        executable: /bin/bash
+      when: ansible_os_family == "Archlinux"
       
-- import_playbook: tasks/install-yay.yml
+#- import_playbook: tasks/install-yay.yml
 - import_playbook: tasks/asdf.yml
 #- import_playbook: tasks/dotfiles.yml
 #- import_playbook: tasks/zoxide.yml
