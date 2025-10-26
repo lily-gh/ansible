@@ -29,8 +29,8 @@
         use: makepkg
         name:
           - yay
-        become: yes
-        become_user: aur_builder
+      become: yes
+      become_user: aur_builder
 
       
 #- import_playbook: tasks/install-yay.yml
