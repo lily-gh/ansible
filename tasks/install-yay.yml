@@ -1,5 +1,5 @@
 ---
-- hosts: arch
+- hosts: localhost
   become: yes
   roles:
     - role: jpedrodelacerda.yay

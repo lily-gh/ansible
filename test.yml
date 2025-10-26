@@ -7,6 +7,12 @@
     - name: Debug home directory
       ansible.builtin.debug:
         var: ansible_env.HOME
+        
+    - name: Install asdf-vm using yay
+      kewlfft.aur.aur:
+        use: yay
+        name:
+          - asdf-vm
 
     #- name: Install yay AUR helper interactively
     #  ansible.builtin.shell: |
@@ -32,7 +38,7 @@
     #    var: yay_install_result.stderr
     #  when: ansible_os_family == "Archlinux"
       
-- import_playbook: tasks/install-yay.yml
+#- import_playbook: tasks/install-yay.yml
 #- import_playbook: tasks/asdf.yml
 #- import_playbook: tasks/dotfiles.yml
 #- import_playbook: tasks/zoxide.yml
