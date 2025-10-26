@@ -10,7 +10,7 @@
 
     - name: Update System Packages and refresh repositories
       ansible.builtin.shell: |
-        pacman -Syuu
+        pacman -Syuu --noconfirm
       become: true
 
     - name: Install yay AUR helper
