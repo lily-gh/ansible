@@ -9,15 +9,28 @@
         msg: "Home directory is {{ ansible_env.HOME }}"
 
     - name: Install yay AUR helper
-      ansible.builtin.shell: |
-        if ! command -v yay &> /dev/null; then
-          cd /tmp
-          git clone https://aur.archlinux.org/yay.git
-          cd yay
-          makepkg -si --noconfirm
-          rm -rf /tmp/yay
-        fi
+      block:
+        - name: Remove existing yay directory if exists
+          ansible.builtin.file:
+            path: /tmp/yay
+            state: absent
+
+        - name: Clone yay repository
+          ansible.builtin.git:
+            repo: https://aur.archlinux.org/yay.git
+            dest: /tmp/yay
+
+        - name: Build yay package
+          ansible.builtin.shell: makepkg -s --noconfirm
+          args:
+            chdir: /tmp/yay
+
+        - name: Install yay package
+          ansible.builtin.shell: sudo pacman -U --noconfirm /tmp/yay/yay-*.pkg.tar.*
+          args:
+            chdir: /tmp/yay
       register: yay_install_result
+      when: ansible_facts.packages['yay'] is not defined or not ansible_facts.packages['yay']
 
     - name: Show yay installation stdout
       ansible.builtin.debug:
