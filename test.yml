@@ -20,6 +20,17 @@
       args:
         executable: /bin/bash
       when: ansible_os_family == "Archlinux"
+      register: yay_install_result
+
+    - name: Show yay installation stdout
+      ansible.builtin.debug:
+        var: yay_install_result.stdout
+      when: ansible_os_family == "Archlinux"
+
+    - name: Show yay installation stderr
+      ansible.builtin.debug:
+        var: yay_install_result.stderr
+      when: ansible_os_family == "Archlinux"
       
 #- import_playbook: tasks/install-yay.yml
 - import_playbook: tasks/asdf.yml
