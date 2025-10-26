@@ -17,7 +17,6 @@
           makepkg -si --noconfirm
           rm -rf /tmp/yay
         fi
-      become: true
       register: yay_install_result
 
     - name: Show yay installation stdout
