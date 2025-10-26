@@ -2,7 +2,7 @@
 - hosts: arch
   become: yes
   roles:
-    - role: geosword.ansible.archyay
+    - role: jpedrodelacerda.yay
       vars:
         homedir: "{{ ansible_env.HOME }}"
         srcdir: "{{ ansible_env.HOME }}/.src"
