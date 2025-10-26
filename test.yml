@@ -9,9 +9,17 @@
       ansible.builtin.debug:
         msg: "Home directory is {{ ansible_env.HOME }}"
 
-    - name: Include Arch tasks
-      include_tasks: tasks/arch-packages.yml
-      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install yay AUR helper
+      ansible.builtin.shell: |
+        if ! command -v yay &> /dev/null; then
+          cd /tmp
+          git clone https://aur.archlinux.org/yay.git --force
+          cd yay
+          makepkg -si --noconfirm
+          rm -rf /tmp/yay
+        fi
+#      register: yay_install_result
+#      changed_when: yay_install_result.stdout is search('installing yay') or yay_install_result.rc == 0
       
 - import_playbook: tasks/asdf.yml
 #- import_playbook: tasks/dotfiles.yml
