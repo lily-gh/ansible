@@ -4,9 +4,11 @@
   gather_facts: true
 
   tasks:
-    - name: Include yay tasks
-      include_tasks: tasks/install-yay.yml
+    - name: Debug home directory
+      ansible.builtin.debug:
+        var: ansible_env.HOME
       
+- import_playbook: tasks/install-yay.yml
 - import_playbook: tasks/asdf.yml
 #- import_playbook: tasks/dotfiles.yml
 #- import_playbook: tasks/zoxide.yml
