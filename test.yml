@@ -34,7 +34,7 @@
 
       
 #- import_playbook: tasks/install-yay.yml
-#- import_playbook: tasks/asdf.yml
+- import_playbook: tasks/asdf.yml
 #- import_playbook: tasks/dotfiles.yml
 #- import_playbook: tasks/zoxide.yml
 #- name: Import macOS specific playbook
