@@ -6,17 +6,7 @@
   tasks:
     - name: Include Ubuntu-specific asdf tasks
       ansible.builtin.include_tasks: asdf-ubuntu.yml
-      when: ansible_os_family == "Debian"
-
-    - name: Install asdf on Arch
-      kewlfft.aur.aur:
-        use: yay
-        state: present
-        name:
-          - asdf-vm
-      become: yes
-      become_user: aur_builder
-      when: ansible_os_family == "Archlinux"
+      when: ansible_os_family == "Debian"    
 
     - name: Set asdf binary path for macOS
       ansible.builtin.set_fact:
@@ -32,13 +22,7 @@
       ansible.builtin.set_fact:
         asdf_path: ":{{ ansible_env.PATH }}"
       when: ansible_os_family == "Archlinux"
-
-    - name: Set asdf binary path for unknown platform
-      ansible.builtin.set_fact:
-        asdf_path: "{{ ansible_env.PATH }}"
-      when: ansible_os_family != "Debian" and ansible_os_family != "Darwin" and ansible_os_family != "Archlinux"
-
-
+    
     - name: Add asdf shims to PATH in ~/.zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
@@ -59,7 +43,7 @@
       environment:
         PATH: "{{ asdf_path }}"
 
-    - name: Get latest installed Node.js version
+    - name: Get latest Node.js version
       ansible.builtin.shell: asdf list nodejs | grep -v "No versions" | tail -1 | tr -d ' '
       register: nodejs_latest_version
       environment:

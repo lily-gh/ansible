@@ -52,3 +52,12 @@
       - yay
   become: yes
   become_user: aur_builder
+
+- name: Install asdf on Arch
+  kewlfft.aur.aur:
+    use: yay
+    state: present
+    name:
+      - asdf-vm
+  become: yes
+  become_user: aur_builder

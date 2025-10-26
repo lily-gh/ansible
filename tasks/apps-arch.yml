@@ -1,30 +1,13 @@
 ---
 
-- name: Update package database
-  community.general.pacman:
-    update_cache: yes
-  become: true
-
-- name: Install apps from official repositories
-  community.general.pacman:
-    name: "{{ item }}"
+- name: Install apps on Arch
+  kewlfft.aur.aur:
+    use: yay
     state: present
-  with_items:
-    - vlc
-    - neovim
-  become: true
-
-- name: Install Telegram
-  ansible.builtin.shell: yay -S --noconfirm telegram-desktop
-  args:
-    creates: /usr/bin/telegram-desktop
-
-- name: Install VS Code
-  ansible.builtin.shell: yay -S --noconfirm visual-studio-code-bin
-  args:
-    creates: /usr/bin/code
-
-- name: Install 1Password
-  ansible.builtin.shell: yay -S --noconfirm 1password
-  args:
-    creates: /usr/bin/1password
+    name:
+      - telegram-desktop
+      - 1password
+      - visual-studio-code-bin
+      - vlc
+  become: yes
+  become_user: aur_builder
