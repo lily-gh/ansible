@@ -8,33 +8,13 @@
       ansible.builtin.debug:
         var: ansible_env.HOME
   
-    - name: Create the `aur_builder` user
-      become: yes
-      ansible.builtin.user:
-        name: aur_builder
-        create_home: yes
-        group: wheel
+    - name: Include macOS apps
+      include_tasks: apps-macos.yml
+      when: ansible_facts['os_family'] == 'Darwin'
 
-    - name: Allow the `aur_builder` user to run `sudo pacman` without a password
-      become: yes
-      ansible.builtin.lineinfile:
-        path: /etc/sudoers.d/11-install-aur_builder
-        line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
-        create: yes
-        mode: 0644
-        validate: 'visudo -cf %s'
-
-    - name: Install yay
-      kewlfft.aur.aur:
-        use: makepkg
-        name:
-          - yay
-      become: yes
-      become_user: aur_builder
 
       
 #- import_playbook: tasks/install-yay.yml
-- import_playbook: tasks/asdf.yml
 #- import_playbook: tasks/dotfiles.yml
 #- import_playbook: tasks/zoxide.yml
 #- name: Import macOS specific playbook

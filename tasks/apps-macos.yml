@@ -23,7 +23,7 @@
 
 - name: Copy iTerm2 profile configuration
   copy:
-    src: "{{ playbook_dir }}/Lily-iterm2.json"
+    src: "{{ playbook_dir }}/misc/Lily-iterm2.json"
     dest: "~/Library/Application Support/iTerm2/DynamicProfiles/Lily-iterm2.json"
     mode: '0644'
 
