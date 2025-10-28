@@ -53,12 +53,11 @@
   become: yes
   become_user: aur_builder
 
-- name: Install asdf and Miniconda on Arch
+- name: Install asdf on Arch
   kewlfft.aur.aur:
     use: yay
     state: present
     name:
       - asdf-vm
-      - miniconda3
   become: yes
   become_user: aur_builder

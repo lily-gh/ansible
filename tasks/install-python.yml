@@ -5,9 +5,9 @@
   gather_facts: true
 
   tasks:
-    - name: Install Miniconda on Ubuntu
+    - name: Install Miniconda on Ubuntu/Arch
       include_tasks: python/conda-ubuntu.yml
-      when: ansible_facts['os_family'] == 'Debian'
+      when: ansible_facts['os_family'] != 'Darwin'
     
     - name: Install Miniconda on MacOS
       include_tasks: python/conda-macos.yml
