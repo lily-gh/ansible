@@ -21,7 +21,6 @@
     - zsh
     - xclip
     - wget
-    - miniconda3
   become: true
 
 - name: Install base-devel (required for AUR packages)
@@ -54,11 +53,12 @@
   become: yes
   become_user: aur_builder
 
-- name: Install asdf on Arch
+- name: Install asdf and Miniconda on Arch
   kewlfft.aur.aur:
     use: yay
     state: present
     name:
       - asdf-vm
+      - miniconda3
   become: yes
   become_user: aur_builder
