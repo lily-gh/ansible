@@ -15,6 +15,7 @@
     - bat
     - ffmpeg
     - fzf
+    - gcc
     - git
     - pcre2
     - eza

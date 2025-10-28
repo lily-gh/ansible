@@ -67,13 +67,12 @@ else
     else
       echo "Ansible is already installed."
     fi
+
+    # Ansible collection needed to install AUR helper
+    ansible-galaxy collection install kewlfft.aur
   fi
 
-
 fi
-
-  # Ansible collection needed to install AUR helper
-  ansible-galaxy collection install kewlfft.aur
 # Run the playbook
 #ansible-playbook main.yml --ask-become-pass --ask-vault-pass 
 ansible-playbook main.yml --ask-become-pass
