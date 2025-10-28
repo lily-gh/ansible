@@ -16,6 +16,7 @@
     - ffmpeg
     - fzf
     - git
+    - pcre2
     - eza
     - vim
     - zsh

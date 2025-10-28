@@ -30,14 +30,14 @@
         patterns: "Maple*"
       register: maple_files
     
-    - name: Ensure font directories exist on Ubuntu
+    - name: Ensure font directories exist on Ubuntu/Arch
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: '0755'
       with_items:
         - $HOME/.local/share/fonts
-      when: ansible_facts['os_family'] == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian' or ansible_facts['os_family'] == 'Archlinux'
 
     - name: Include Meslo font installation tasks
       include_tasks: fonts/meslo.yml
@@ -47,7 +47,7 @@
       include_tasks: fonts/maple.yml
       when: maple_files.matched == 0
 
-    - name: Refresh font cache in Ubuntu
+    - name: Refresh font cache in Ubuntu/Arch
       ansible.builtin.command:
         cmd: fc-cache -fv
-      when: ansible_facts['os_family'] == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian' or ansible_facts['os_family'] == 'Archlinux'
