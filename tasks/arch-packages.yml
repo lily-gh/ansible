@@ -21,6 +21,7 @@
     - zsh
     - xclip
     - wget
+    - miniconda3
   become: true
 
 - name: Install base-devel (required for AUR packages)
